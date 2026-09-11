@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>英文冒险岛 RPG - English Maple</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link
+  href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Noto+Sans+SC:wght@400;500;700;900&display=swap"
+  rel="stylesheet"
+>
+
+<style>
+body {
+  font-family: 'Plus Jakarta Sans', 'Noto Sans SC', sans-serif;
+}
+
+.pixel-shadow {
+  box-shadow: 0 8px 0 rgba(0,0,0,0.3);
+}
+
+.pixel-btn:active {
+  transform: translateY(4px);
+  box-shadow: 0 4px 0 rgba(0,0,0,0.3);
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.85;
+    transform: scale(1.02);
+  }
+}
+
+.animate-glow {
+  animation: pulse-glow 2s infinite ease-in-out;
+}
+</style>
+</head>
+
+<body class="bg-gradient-to-br from-slate-950 via-indigo-950 to-purple-950 min-h-screen text-slate-100 pb-24">
+
+<!-- 顶部状态栏 -->
+<header class="sticky top-0 z-50 bg-slate-900/90 backdrop-blur-md border-b border-indigo-500/20 px-4 py-3">
+
+  <div class="max-w-md mx-auto flex items-center justify-between">
+
+    <div class="flex items-center space-x-2">
+      <span class="text-2xl">🌴</span>
+
+      <div>
+        <h1 class="text-base font-extrabold text-yellow-400">
+          英文冒险岛
+        </h1>
+
+        <p class="text-[10px] text-indigo-300">
+          Level <span id="headerLevel">1</span> 冒险者
+        </p>
+      </div>
+    </div>
+
+    <div class="flex items-center space-x-2 text-xs">
+
+      <div class="bg-indigo-950/80 border border-indigo-500/40 px-2.5 py-1 rounded-full">
+        ⚡
+        <span id="headerXp" class="font-bold text-indigo-200">
+          20/100
+        </span>
+      </div>
+
+      <div class="bg-yellow-950/80 border border-yellow-500/40 px-2.5 py-1 rounded-full">
+        🪙
+        <span id="headerGold" class="font-bold text-yellow-300">
+          80
+        </span>
+      </div>
+
+    </div>
+  </div>
+</header>
+
+
+<!-- 主内容 -->
+<main class="max-w-md mx-auto p-4 space-y-5">
+
+
+<!-- ==================== 世界地图 ==================== -->
+
+<section id="view-home" class="space-y-4">
+
+  <!-- 玩家卡片 -->
+  <div class="bg-gradient-to-r from-indigo-900/60 to-purple-900/60 backdrop-blur-md rounded-2xl p-4 border border-indigo-500/30 shadow-xl">
+
+    <div class="flex justify-between items-center mb-3">
+
+      <span class="text-xs bg-indigo-500/30 text-indigo-200 px-2 py-1 rounded-md">
+        当前称号：学徒冒险者
+      </span>
+
+      <span class="text-xs text-green-400 font-bold">
+        🟢 在线训练中
+      </span>
+
+    </div>
+
+    <div class="space-y-1.5">
+
+      <div class="flex justify-between text-xs text-indigo-200">
+        <span>生命值 HP</span>
+
+        <span id="hpText" class="font-bold text-red-400">
+          100 / 100
+        </span>
+      </div>
+
+      <div class="w-full bg-slate-800 rounded-full h-2.5 overflow-hidden">
+
+        <div
+          id="hpBar"
+          class="bg-gradient-to-r from-red-500 to-rose-400 h-full"
+          style="width:100%"
+        ></div>
+
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- 地图标题 -->
+
+  <div class="flex justify-between items-center px-1">
+
+    <h2 class="text-sm font-bold text-yellow-300">
+      🗺️ 世界地图：日常生活村
+    </h2>
+
+    <span class="text-[11px] text-indigo-300">
+      已解锁 3/3 关
+    </span>
+
+  </div>
+
+
+  <!-- 第一关 -->
+
+  <div
+    onclick="startStage(1)"
+    class="bg-slate-900/70 hover:bg-slate-800 border border-indigo-500/30 rounded-2xl p-4 flex items-center justify-between shadow-lg cursor-pointer"
+  >
+
+    <div class="flex items-center space-x-3">
+
+      <div class="w-10 h-10 rounded-xl bg-indigo-600/30 border border-indigo-400/40 flex items-center justify-center text-xl">
+        👋
+      </div>
+
+      <div>
+
+        <h3 class="font-bold text-slate-100 text-sm">
+          第一关：日常打招呼
+        </h3>
+
+        <p class="text-xs text-indigo-300">
+          Hello / Morning / Nice to meet you
+        </p>
+
+      </div>
+
+    </div>
+
+    <span class="text-xs bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 px-3 py-1 rounded-full">
+      学习
+    </span>
+
+  </div>
+
+
+  <!-- 第二关 -->
+
+  <div
+    onclick="startStage(2)"
+    class="bg-slate-900/70 hover:bg-slate-800 border border-indigo-500/30 rounded-2xl p-4 flex items-center justify-between shadow-lg cursor-pointer"
+  >
+
+    <div class="flex items-center space-x-3">
+
+      <div class="w-10 h-10 rounded-xl bg-purple-600/30 border border-purple-400/40 flex items-center justify-center text-xl">
+        🛒
+      </div>
+
+      <div>
+
+        <h3 class="font-bold text-slate-100 text-sm">
+          第二关：美国超市购物
+        </h3>
+
+        <p class="text-xs text-indigo-300">
+          Could you help me find...?
+        </p>
+
+      </div>
+
+    </div>
+
+    <span class="text-xs bg-yellow-500/20 border border-yellow-500/40 text-yellow-300 px-3 py-1 rounded-full">
+      挑战
+    </span>
+
+  </div>
+
+
+  <!-- Boss -->
+
+  <div
+    onclick="startBossStage()"
+    class="bg-gradient-to-r from-red-950/70 to-purple-950/70 border-2 border-red-500/50 rounded-2xl p-4 flex items-center justify-between shadow-xl animate-glow cursor-pointer"
+  >
+
+    <div class="flex items-center space-x-3">
+
+      <div class="w-10 h-10 rounded-xl bg-red-600/30 border border-red-400/50 flex items-center justify-center text-xl">
+        👹
+      </div>
+
+      <div>
+
+        <h3 class="font-bold text-red-300 text-sm">
+          Boss：迷糊店员
+        </h3>
+
+        <p class="text-xs text-red-200/80">
+          用英语对话击败 Boss
+        </p>
+
+      </div>
+
+    </div>
+
+    <span class="text-xs bg-red-500 text-white px-3 py-1.5 rounded-full font-extrabold">
+      开战 🔥
+    </span>
+
+  </div>
+
+</section>
+
+
+<!-- ==================== 学习页面 ==================== -->
+
+<section id="view-study" class="hidden space-y-4">
+
+  <div class="flex items-center justify-between">
+
+    <button
+      onclick="backToHome()"
+      class="text-xs bg-slate-800 text-indigo-200 px-3 py-1.5 rounded-xl border border-indigo-500/30"
+    >
+      ← 返回地图
+    </button>
+
+    <span id="stageTitle" class="text-xs font-bold text-yellow-400">
+      学习关卡
+    </span>
+
+  </div>
+
+
+  <div class="bg-slate-900/90 rounded-3xl p-6 border border-indigo-500/40 shadow-2xl">
+
+    <div
+      id="stepIndicator"
+      class="text-xs text-indigo-300 mb-4"
+    >
+      步骤 1/3
+    </div>
+
+    <div
+      id="lessonContent"
+      class="space-y-4"
+    ></div>
+
+    <button
+      id="actionBtn"
+      onclick="nextStudyStep()"
+      class="w-full mt-5 bg-gradient-to-r from-yellow-500 to-amber-600 text-slate-950 font-extrabold py-3.5 rounded-2xl"
+    >
+      下一步 →
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- ==================== Boss ==================== -->
+
+<section id="view-boss" class="hidden space-y-4">
+
+  <div class="flex items-center justify-between">
+
+    <button
+      onclick="backToHome()"
+      class="text-xs bg-slate-800 text-indigo-200 px-3 py-1.5 rounded-xl border border-indigo-500/30"
+    >
+      ← 逃跑
+    </button>
+
+    <span class="text-xs font-bold text-red-400">
+      ⚔️ BOSS 决战
+    </span>
+
+  </div>
+
+
+  <!-- Boss 血条 -->
+
+  <div class="bg-slate-900/90 border-2 border-red-500/40 rounded-3xl p-5 shadow-2xl">
+
+    <div class="flex justify-between items-center">
+
+      <div>
+
+        <div class="text-xl">
+          👹
+        </div>
+
+        <h3 class="font-black text-red-300 text-sm">
+          迷糊店员
+        </h3>
+
+        <p class="text-[10px] text-slate-400">
+          用正确英语回答 Boss
+        </p>
+
+      </div>
+
+      <span
+        id="bossHpText"
+        class="text-xs font-bold text-red-400"
+      >
+        HP: 100/100
+      </span>
+
+    </div>
+
+
+    <div class="w-full bg-slate-950 rounded-full h-3 mt-3 overflow-hidden">
+
+      <div
+        id="bossHpBar"
+        class="bg-gradient-to-r from-red-600 to-orange-500 h-full"
+        style="width:100%"
+      ></div>
+
+    </div>
+
+  </div>
+
+
+  <!-- 对话 -->
+
+  <div class="bg-slate-900/90 border border-indigo-500/30 rounded-3xl p-4 shadow-xl">
+
+    <div
+      id="chatLog"
+      class="h-52 overflow-y-auto space-y-3 text-xs"
+    ></div>
+
+
+    <div class="mt-3 pt-3 border-t border-slate-800">
+
+      <div class="flex gap-2">
+
+        <input
+          id="userInput"
+          type="text"
+          placeholder="输入英文，例如：I'm looking for milk."
+          class="flex-1 bg-slate-950 border border-indigo-500/40 rounded-xl px-3 py-2.5 text-xs text-white"
+        >
+
+        <button
+          onclick="submitBossAnswer()"
+          class="bg-yellow-500 text-slate-950 font-bold px-4 py-2.5 rounded-xl text-xs"
+        >
+          发送
+        </button>
+
+      </div>
+
+
+      <div class="flex justify-between mt-2 text-[11px] text-indigo-300">
+
+        <span>
+          💡 AI 英语教练
+        </span>
+
+        <span
+          id="comboCounter"
+          class="font-extrabold text-orange-400"
+        >
+          COMBO × 0
+        </span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ==================== 装备 ==================== -->
+
+<section id="view-profile" class="hidden space-y-4">
+
+  <div class="bg-slate-900/90 border border-indigo-500/30 rounded-3xl p-5 shadow-xl">
+
+    <h3 class="font-bold text-yellow-400 text-sm mb-4">
+      🎒 冒险者背包
+    </h3>
+
+    <div class="grid grid-cols-2 gap-3">
+
+      <div class="bg-slate-950 border border-purple-500/40 rounded-2xl p-3">
+        <div class="text-2xl">⚔️</div>
+
+        <p class="text-xs font-bold text-purple-300 mt-2">
+          英语之剑
+        </p>
+
+        <p class="text-[10px] text-slate-400">
+          词汇伤害 +15%
+        </p>
+      </div>
+
+
+      <div class="bg-slate-950 border border-slate-800 rounded-2xl p-3 opacity-60">
+
+        <div class="text-2xl">
+          🛡️
+        </div>
+
+        <p class="text-xs font-bold text-slate-400 mt-2">
+          听力盾牌
+        </p>
+
+        <p class="text-[10px] text-slate-500">
+          击败 Boss 解锁
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+</main>
+
+
+<!-- ==================== 底部导航 ==================== -->
+
+<nav class="fixed bottom-0 left-0 right-0 bg-slate-900/95 backdrop-blur-md border-t border-indigo-500/20 px-6 py-2.5 flex justify-around items-center z-50">
+
+  <button
+    onclick="switchTab('home')"
+    id="nav-home"
+    class="flex flex-col items-center text-yellow-400"
+  >
+    <span class="text-lg">🗺️</span>
+    <span class="text-[10px] font-bold">世界</span>
+  </button>
+
+
+  <button
+    onclick="switchTab('profile')"
+    id="nav-profile"
+    class="flex flex-col items-center text-slate-400"
+  >
+    <span class="text-lg">🎒</span>
+    <span class="text-[10px] font-bold">装备</span>
+  </button>
+
+</nav>
+
+
+<script>
+
+/* =========================
+   游戏数据
+========================= */
+
+const gameState = {
+  level: 1,
+  xp: 20,
+  maxXp: 100,
+  gold: 80,
+  hp: 100,
+  maxHp: 100,
+  bossHp: 100,
+  maxBossHp: 100,
+  combo: 0
+};
+
+
+/* =========================
+   更新顶部状态
+========================= */
+
+function updateHeader() {
+
+  document.getElementById("headerLevel").textContent =
+    gameState.level;
+
+  document.getElementById("headerXp").textContent =
+    gameState.xp + "/" + gameState.maxXp;
+
+  document.getElementById("headerGold").textContent =
+    gameState.gold;
+
+  document.getElementById("hpText").textContent =
+    gameState.hp + " / " + gameState.maxHp;
+
+  const hpPercent =
+    (gameState.hp / gameState.maxHp) * 100;
+
+  document.getElementById("hpBar").style.width =
+    hpPercent + "%";
+}
+
+
+/* =========================
+   页面切换
+========================= */
+
+function hideAllViews() {
+
+  document.getElementById("view-home").classList.add("hidden");
+  document.getElementById("view-study").classList.add("hidden");
+  document.getElementById("view-boss").classList.add("hidden");
+  document.getElementById("view-profile").classList.add("hidden");
+}
+
+
+function switchTab(tab) {
+
+  hideAllViews();
+
+  if (tab === "home") {
+
+    document.getElementById("view-home").classList.remove("hidden");
+
+    document.getElementById("nav-home").className =
+      "flex flex-col items-center text-yellow-400";
+
+    document.getElementById("nav-profile").className =
+      "flex flex-col items-center text-slate-400";
+
+  }
+
+  if (tab === "profile") {
+
+    document.getElementById("view-profile").classList.remove("hidden");
+
+    document.getElementById("nav-home").className =
+      "flex flex-col items-center text-slate-400";
+
+    document.getElementById("nav-profile").className =
+      "flex flex-col items-center text-yellow-400";
+
+  }
+
+}
+
+
+function backToHome() {
+  switchTab("home");
+}
+
+
+/* =========================
+   学习关卡
+========================= */
+
+const stages = {
+
+  1: {
+
+    title: "第一关：日常打招呼",
+
+    steps: [
+
+      {
+        type: "scene",
+        title: "👋 情景开始",
+        content:
+          "你在美国街上遇到了朋友 John。<br><br>" +
+          "<strong class='text-yellow-300 text-lg'>" +
+          "Good morning! How are you doing?" +
+          "</strong>"
+      },
+
+      {
+        type: "word",
+        word: "Wonderful",
+        pronunciation: "[ˈwʌndərfəl]",
+        meaning: "极好的、精彩的",
+        tip: "别人问你 How are you? 时可以用这个词回答。"
+      },
+
+      {
+        type: "quiz",
+        question:
+          "当别人问你 “How are you doing?”，下面哪个回答最自然？",
+
+        options: [
+          "I'm good, thank you.",
+          "I want apple.",
+          "Table is big."
+        ],
+
+        correct: 0
+      }
+
+    ]
+
+  },
+
+
+  2: {
+
+    title: "第二关：美国超市购物",
+
+    steps: [
+
+      {
+        type: "scene",
+        title: "🛒 超市场景",
+
+        content:
+          "你在美国超市找不到牛奶，需要向店员求助。<br><br>" +
+          "<strong class='text-yellow-300 text-lg'>" +
+          "Could you help me find the milk?" +
+          "</strong>"
+      },
+
+      {
+        type: "word",
+        word: "Refund",
+        pronunciation: "[ˈriːfʌnd]",
+        meaning: "退款",
+
+        tip:
+          "买错商品或者退货时，这是美国生活中很常见的词。"
+      },
+
+      {
+        type: "quiz",
+
+        question:
+          "想询问店员某个商品在哪里，应该说？",
+
+        options: [
+          "Where can I find it?",
+          "You are milk.",
+          "How old are you?"
+        ],
+
+        correct: 0
+      }
+
+    ]
+
+  }
+
+};
+
+
+let currentStage = null;
+let currentStep = 0;
+
+
+/* 开始学习 */
+
+function startStage(stageId) {
+
+  currentStage = stages[stageId];
+
+  currentStep = 0;
+
+  document.getElementById("stageTitle").textContent =
+    currentStage.title;
+
+  document.getElementById("view-home").classList.add("hidden");
+
+  document.getElementById("view-study").classList.remove("hidden");
+
+  renderStudyStep();
+}
+
+
+/* 显示学习步骤 */
+
+function renderStudyStep() {
+
+  const step =
+    currentStage.steps[currentStep];
+
+  const container =
+    document.getElementById("lessonContent");
+
+  const indicator =
+    document.getElementById("stepIndicator");
+
+  const button =
+    document.getElementById("actionBtn");
+
+
+  indicator.textContent =
+    "步骤 " +
+    (currentStep + 1) +
+    "/" +
+    currentStage.steps.length;
+
+
+  button.classList.remove("hidden");
+
+
+  if (step.type === "scene") {
+
+    container.innerHTML =
+
+      '<div class="bg-indigo-950/70 border border-indigo-500/30 p-5 rounded-2xl">' +
+
+      '<h3 class="text-lg font-bold text-yellow-300 mb-3">' +
+      step.title +
+      '</h3>' +
+
+      '<p class="text-sm leading-7 text-indigo-100">' +
+      step.content +
+      '</p>' +
+
+      '</div>';
+
+    button.textContent =
+      "我理解了，下一步 →";
+
+  }
+
+
+  else if (step.type === "word") {
+
+    container.innerHTML =
+
+      '<div class="bg-indigo-950/70 border border-indigo-500/30 p-5 rounded-2xl">' +
+
+      '<div class="text-4xl font-black text-yellow-300">' +
+      step.word +
+      '</div>' +
+
+      '<div class="text-xs text-indigo-300 mt-2">' +
+      step.pronunciation +
+      '</div>' +
+
+      '<div class="text-lg text-white mt-3">' +
+      step.meaning +
+      '</div>' +
+
+      '<div class="text-xs text-indigo-300 mt-4">' +
+      "💡 " +
+      step.tip +
+      '</div>' +
+
+      '</div>';
+
+    button.textContent =
+      "我学会了，下一步 →";
+
+  }
+
+
+  else if (step.type === "quiz") {
+
+    let html =
+
+      '<div class="space-y-4">' +
+
+      '<p class="text-sm font-bold text-yellow-300">' +
+      step.question +
+      '</p>' +
+
+      '<div class="space-y-2">';
+
+
+    step.options.forEach(function(option, index) {
+
+      html +=
+
+        '<button ' +
+        'onclick="checkQuiz(' +
+        index +
+        ')" ' +
+
+        'class="w-full text-left bg-indigo-950/80 hover:bg-indigo-900 border border-indigo-500/40 p-4 rounded-xl text-sm text-white">' +
+
+        String.fromCharCode(65 + index) +
+        ". " +
+        option +
+
+        '</button>';
+
+    });
+
+
+    html +=
+      '</div></div>';
+
+
+    container.innerHTML = html;
+
+    button.classList.add("hidden");
+
+  }
+
+}
+
+
+/* 下一步 */
+
+function nextStudyStep() {
+
+  currentStep++;
+
+  if (
+    currentStep <
+    currentStage.steps.length
+  ) {
+
+    renderStudyStep();
+
+  } else {
+
+    gameState.xp += 30;
+
+    gameState.gold += 20;
+
+    checkLevelUp();
+
+    updateHeader();
+
+    alert(
+      "🎉 恭喜！你完成了这一关！\n\n" +
+      "+30 XP\n" +
+      "+20 金币"
+    );
+
+    backToHome();
+
+  }
+
+}
+
+
+/* 答题 */
+
+function checkQuiz(selected) {
+
+  const correct =
+    currentStage.steps[currentStep].correct;
+
+
+  if (selected === correct) {
+
+    alert("✅ 回答正确！");
+
+    nextStudyStep();
+
+  } else {
+
+    alert("❌ 回答错误，再试一次！");
+
+  }
+
+}
+
+
+/* =========================
+   Boss 战
+========================= */
+
+function startBossStage() {
+
+  gameState.bossHp = 100;
+  gameState.combo = 0;
+
+  hideAllViews();
+
+  document.getElementById("view-boss").classList.remove("hidden");
+
+  const chat =
+    document.getElementById("chatLog");
+
+  chat.innerHTML =
+
+    '<div class="bg-red-950/50 border border-red-500/30 p-3 rounded-xl">' +
+
+    '<p class="text-red-300 font-bold">' +
+    "👹 迷糊店员：" +
+    '</p>' +
+
+    '<p class="text-white mt-1">' +
+    '"Hi! Can I help you find something?"' +
+    '</p>' +
+
+    '</div>';
+
+
+  updateBossHp();
+
+}
+
+
+/* Boss 血条 */
+
+function updateBossHp() {
+
+  document.getElementById("bossHpText").textContent =
+    "HP: " +
+    gameState.bossHp +
+    "/" +
+    gameState.maxBossHp;
+
+
+  const percent =
+    (gameState.bossHp / gameState.maxBossHp) * 100;
+
+
+  document.getElementById("bossHpBar").style.width =
+    percent + "%";
+
+
+  document.getElementById("comboCounter").textContent =
+    "COMBO × " +
+    gameState.combo;
+
+}
+
+
+/* Boss 回答 */
+
+function submitBossAnswer() {
+
+  const input =
+    document.getElementById("userInput");
+
+  const value =
+    input.value.trim();
+
+
+  if (!value) {
+
+    return;
+
+  }
+
+
+  const chat =
+    document.getElementById("chatLog");
+
+
+  chat.innerHTML +=
+
+    '<div class="bg-indigo-950/60 border border-indigo-500/30 p-3 rounded-xl ml-6">' +
+
+    '<p class="text-indigo-300 font-bold">' +
+    "👤 你：" +
+    '</p>' +
+
+    '<p class="text-white mt-1">' +
+    escapeHtml(value) +
+    '</p>' +
+
+    '</div>';
+
+
+  input.value = "";
+
+
+  const lower =
+    value.toLowerCase();
+
+
+  const correct =
+    lower.includes("looking for") ||
+    lower.includes("could you help") ||
+    lower.includes("can you help") ||
+    lower.includes("i need") ||
+    lower.includes("where can i find");
+
+
+  if (correct) {
+
+    gameState.combo++;
+
+    gameState.bossHp -= 35;
+
+    if (gameState.bossHp < 0) {
+
+      gameState.bossHp = 0;
+
+    }
+
+
+    chat.innerHTML +=
+
+      '<div class="bg-emerald-950/60 border border-emerald-500/30 p-3 rounded-xl mr-6">' +
+
+      '<p class="text-emerald-300 font-bold">' +
+      "🤖 AI 英语教练：" +
+      '</p>' +
+
+      '<p class="text-white mt-1">' +
+      "Perfect! 表达很自然！Boss -35 HP！🔥" +
+      '</p>' +
+
+      '</div>';
+
+
+    updateBossHp();
+
+
+    if (gameState.bossHp === 0) {
+
+      setTimeout(function() {
+
+        gameState.xp += 80;
+
+        gameState.gold += 50;
+
+        checkLevelUp();
+
+        updateHeader();
+
+        alert(
+          "🏆 恭喜！你击败了 Boss！\n\n" +
+          "获得：听力盾牌 🛡️\n" +
+          "+80 XP\n" +
+          "+50 金币"
+        );
+
+        backToHome();
+
+      }, 500);
+
+    }
+
+  } else {
+
+    gameState.combo = 0;
+
+    updateBossHp();
+
+
+    chat.innerHTML +=
+
+      '<div class="bg-amber-950/60 border border-amber-500/30 p-3 rounded-xl mr-6">' +
+
+      '<p class="text-amber-300 font-bold">' +
+      "🤖 AI 英语教练：" +
+      '</p>' +
+
+      '<p class="text-white mt-1">' +
+
+      "意思可以理解，但更自然的说法是：" +
+
+      '<br><br>' +
+
+      "<strong class='text-yellow-300'>" +
+      "I'm looking for..." +
+      "</strong>" +
+
+      '</p>' +
+
+      '</div>';
+
+  }
+
+
+  chat.scrollTop =
+    chat.scrollHeight;
+
+}
+
+
+/* =========================
+   防止用户输入 HTML
+========================= */
+
+function escapeHtml(text) {
+
+  const div =
+    document.createElement("div");
+
+  div.textContent = text;
+
+  return div.innerHTML;
+
+}
+
+
+/* =========================
+   升级
+========================= */
+
+function checkLevelUp() {
+
+  while (
+    gameState.xp >= gameState.maxXp
+  ) {
+
+    gameState.xp -=
+      gameState.maxXp;
+
+    gameState.level++;
+
+    gameState.maxXp += 50;
+
+    alert(
+      "🚀 恭喜升级！\n\n" +
+      "当前等级：Lv." +
+      gameState.level
+    );
+
+  }
+
+}
+
+
+/* =========================
+   回车发送 Boss 回答
+========================= */
+
+document
+  .getElementById("userInput")
+  .addEventListener("keydown", function(event) {
+
+    if (event.key === "Enter") {
+
+      submitBossAnswer();
+
+    }
+
+  });
+
+
+/* =========================
+   启动
+========================= */
+
+updateHeader();
+
+switchTab("home");
+
+</script>
+
+</body>
+</html>
