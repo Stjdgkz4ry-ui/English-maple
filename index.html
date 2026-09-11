@@ -3,122 +3,805 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#17132d">
-<title>English Quest · 英语冒险世界</title>
+<meta name="theme-color" content="#0b1020">
+
+<title>英语强制学习系统</title>
 
 <style>
-*{box-sizing:border-box}
-html,body{margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:#11101d;color:#fff}
-body{min-height:100vh}
-button{font:inherit;border:0;cursor:pointer}
-.app{max-width:520px;margin:auto;min-height:100vh;background:linear-gradient(180deg,#191533 0%,#11101d 100%);padding-bottom:82px}
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
 
-.topbar{padding:16px 16px 8px;display:flex;align-items:center;justify-content:space-between}
-.player{display:flex;align-items:center;gap:10px}
-.avatar{width:48px;height:48px;border-radius:16px;background:linear-gradient(135deg,#ffd86b,#ff8f70);display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 5px 18px #0005}
-.name{font-weight:800}
-.level{font-size:12px;color:#bdb8d9;margin-top:3px}
-.stats{display:flex;gap:8px}
-.stat{background:#24203d;border:1px solid #383153;border-radius:12px;padding:7px 9px;font-size:12px}
-.xpbar{height:7px;background:#302b4c;border-radius:20px;margin:4px 16px 14px;overflow:hidden}
-.xpfill{height:100%;width:35%;background:linear-gradient(90deg,#6ee7ff,#8b7cff);border-radius:20px;transition:.4s}
+html,body{
+  margin:0;
+  padding:0;
+  width:100%;
+  min-height:100%;
+  background:#070b16;
+  color:#f7f8ff;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC",
+  "Microsoft YaHei",Arial,sans-serif;
+}
 
-.page{display:none;padding:0 16px}
-.page.active{display:block}
-h1{font-size:25px;margin:10px 0 6px}
-h2{font-size:20px;margin:18px 0 10px}
-.subtitle{color:#aaa6c5;font-size:13px;line-height:1.6}
+body{
+  overflow-x:hidden;
+}
 
-.hero{background:linear-gradient(135deg,#30265b,#1d2850);border:1px solid #4b4171;border-radius:24px;padding:18px;margin-bottom:16px;box-shadow:0 12px 30px #0004}
-.hero-title{font-size:23px;font-weight:900}
-.hero p{color:#c9c4e0;font-size:13px;line-height:1.6}
-.primary{width:100%;padding:14px;border-radius:15px;background:linear-gradient(135deg,#806cff,#5c8cff);color:white;font-weight:800;margin-top:8px;box-shadow:0 7px 18px #625cff44}
-.primary:active,.choice:active,.navbtn:active,.map-card:active{transform:scale(.98)}
+button,input{
+  font:inherit;
+}
 
-.section-head{display:flex;justify-content:space-between;align-items:center}
-.small{font-size:12px;color:#9994b6}
+button{
+  border:0;
+  cursor:pointer;
+}
 
-.map{position:relative;padding:8px 4px 25px}
-.map-line{position:absolute;width:5px;background:#4b416e;left:50%;top:48px;bottom:40px;transform:translateX(-50%);border-radius:20px}
-.map-card{position:relative;z-index:1;width:82%;margin:12px auto;padding:15px;border-radius:20px;background:#211d39;border:1px solid #3a3457;display:flex;align-items:center;gap:13px;text-align:left;transition:.2s}
-.map-card.locked{opacity:.45;filter:grayscale(.5)}
-.map-card.current{border-color:#8275ff;background:linear-gradient(135deg,#2b2450,#222343)}
-.map-icon{font-size:34px}
-.map-name{font-weight:800}
-.map-desc{font-size:12px;color:#a8a3bd;margin-top:3px}
-.badge{margin-left:auto;font-size:11px;background:#372f5e;padding:5px 8px;border-radius:10px;color:#d4ceff}
+.app{
+  max-width:620px;
+  margin:auto;
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 50% -10%,rgba(77,110,255,.28),transparent 35%),
+    #070b16;
+  padding-bottom:88px;
+}
 
-.task{background:#211d39;border:1px solid #373153;border-radius:18px;padding:14px;margin:10px 0;display:flex;gap:12px;align-items:center}
-.task-icon{font-size:27px}
-.task-title{font-weight:800}
-.task-desc{font-size:12px;color:#aaa5c1;margin-top:3px}
+/* ================= TOP ================= */
 
-.lesson-card{background:#211d39;border:1px solid #383153;border-radius:20px;padding:18px;margin:12px 0}
-.lesson-card h3{margin:0 0 5px;font-size:18px}
-.lesson-card p{color:#aaa6c5;font-size:13px;line-height:1.6}
-.tag{display:inline-block;background:#302957;color:#cfc8ff;padding:5px 8px;border-radius:8px;font-size:11px;margin:3px}
+.top{
+  position:sticky;
+  top:0;
+  z-index:20;
+  padding:14px 16px 10px;
+  background:rgba(7,11,22,.88);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
 
-.word{font-size:32px;font-weight:900;text-align:center;margin:12px 0 4px}
-.meaning{text-align:center;color:#aaa5c1}
-.example{background:#18162a;border-radius:15px;padding:15px;margin:15px 0;font-size:17px;line-height:1.5;text-align:center}
-.audio{width:60px;height:60px;border-radius:50%;background:#655cff;color:#fff;font-size:25px;display:block;margin:14px auto}
+.top-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
 
-.choice{width:100%;text-align:left;padding:14px;margin:7px 0;background:#24203e;border:1px solid #3b3558;color:#fff;border-radius:14px;transition:.15s}
-.choice.correct{border-color:#48d597;background:#193c35}
-.choice.wrong{border-color:#ff687d;background:#422332}
+.system-title{
+  font-weight:900;
+  font-size:17px;
+}
 
-.speech{background:#1c1931;border:1px dashed #5b527d;border-radius:20px;padding:22px;text-align:center;margin:15px 0}
-.mic{width:76px;height:76px;border-radius:50%;background:linear-gradient(135deg,#ff6c8f,#765cff);color:white;font-size:30px;margin:12px}
-.speech-status{color:#aaa5c1;font-size:13px}
+.system-status{
+  font-size:11px;
+  color:#75f0a7;
+  margin-top:3px;
+}
 
-.boss{background:radial-gradient(circle at 50% 20%,#44315d,#1c172c 60%);border:1px solid #513d64;border-radius:24px;padding:18px;text-align:center}
-.boss-face{font-size:75px;margin:8px}
-.boss-name{font-size:21px;font-weight:900}
-.hp{height:16px;background:#3c2537;border-radius:20px;overflow:hidden;margin:12px 0}
-.hpfill{height:100%;width:100%;background:linear-gradient(90deg,#ff477e,#ff9c58);transition:.5s}
-.combat-log{background:#151326;border-radius:15px;padding:12px;text-align:left;font-size:12px;color:#c1bbd5;min-height:90px;margin-top:14px;line-height:1.7}
-.attack-btn{width:100%;padding:15px;background:linear-gradient(135deg,#ff5f73,#ff963f);border-radius:15px;color:white;font-weight:900;margin-top:12px}
+.level-box{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
 
-.profile-card{background:#211d39;border-radius:22px;padding:18px;border:1px solid #393253}
-.big-level{font-size:42px;font-weight:900}
-.profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:15px}
-.profile-item{background:#18162b;border-radius:15px;padding:13px}
-.profile-item b{font-size:20px}
-.profile-item span{display:block;color:#aaa5c1;font-size:12px;margin-top:4px}
+.lv{
+  width:40px;
+  height:40px;
+  border-radius:13px;
+  background:linear-gradient(135deg,#765cff,#3e78ff);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:900;
+}
 
-.equipment{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.item{background:#211d39;border:1px solid #393253;border-radius:17px;padding:14px}
-.item-icon{font-size:30px}
-.item-name{font-weight:800;margin-top:5px}
-.rarity{font-size:11px;color:#c9a7ff}
+.xp-mini{
+  width:100px;
+}
 
-.ai-box{background:linear-gradient(135deg,#282153,#192f45);border-radius:22px;padding:18px;border:1px solid #51477a}
-.ai-avatar{font-size:44px}
-.chat{margin-top:15px}
-.msg{padding:12px 14px;border-radius:15px;margin:8px 0;max-width:88%;line-height:1.5;font-size:14px}
-.ai-msg{background:#302a4c}
-.user-msg{background:#6258bc;margin-left:auto}
-input{width:100%;padding:14px;border-radius:14px;border:1px solid #41395e;background:#18162a;color:#fff;outline:none;margin-top:10px}
+.xp-text{
+  font-size:10px;
+  color:#aeb5cc;
+  margin-bottom:4px;
+}
 
-.bottom-nav{position:fixed;z-index:20;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:520px;height:72px;background:#17152aee;backdrop-filter:blur(15px);border-top:1px solid #302b49;display:flex}
-.navbtn{flex:1;background:transparent;color:#77728f;font-size:11px;padding:7px 2px}
-.navbtn span{display:block;font-size:22px;margin-bottom:3px}
-.navbtn.active{color:#a99cff}
+.xp-bar{
+  height:6px;
+  background:#20263a;
+  border-radius:99px;
+  overflow:hidden;
+}
 
-.modal{display:none;position:fixed;z-index:50;inset:0;background:#0009;align-items:flex-end;justify-content:center}
-.modal.show{display:flex}
-.modal-content{width:100%;max-width:520px;background:#1b1830;border-radius:25px 25px 0 0;padding:20px;max-height:88vh;overflow:auto}
-.close{float:right;background:#302b49;color:white;border-radius:10px;padding:7px 11px}
-.reward{text-align:center;padding:20px}
-.reward-icon{font-size:70px}
-.reward h2{font-size:25px}
+.xp-fill{
+  height:100%;
+  background:linear-gradient(90deg,#735dff,#35cfff);
+  border-radius:99px;
+  transition:.4s;
+}
 
-.toast{position:fixed;z-index:100;top:20px;left:50%;transform:translateX(-50%) translateY(-100px);background:#292442;border:1px solid #50476f;padding:12px 18px;border-radius:14px;box-shadow:0 8px 30px #0007;transition:.3s;font-size:13px}
-.toast.show{transform:translateX(-50%) translateY(0)}
+/* ================= PAGES ================= */
+
+.page{
+  display:none;
+  padding:18px 16px;
+}
+
+.page.active{
+  display:block;
+}
+
+/* ================= HERO ================= */
+
+.hero{
+  border-radius:25px;
+  padding:22px;
+  background:
+    radial-gradient(circle at 80% 20%,rgba(90,100,255,.4),transparent 35%),
+    linear-gradient(145deg,#171e38,#101628);
+  border:1px solid rgba(255,255,255,.08);
+  box-shadow:0 18px 50px rgba(0,0,0,.25);
+  position:relative;
+  overflow:hidden;
+}
+
+.hero:after{
+  content:"";
+  position:absolute;
+  width:150px;
+  height:150px;
+  right:-60px;
+  bottom:-70px;
+  border-radius:50%;
+  background:rgba(70,120,255,.18);
+}
+
+.hero-small{
+  color:#8f9bb8;
+  font-size:12px;
+  margin-bottom:8px;
+}
+
+.hero-title{
+  font-size:28px;
+  font-weight:950;
+  line-height:1.15;
+  margin-bottom:10px;
+}
+
+.hero-desc{
+  color:#c5cbe0;
+  line-height:1.65;
+  font-size:14px;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  margin-top:18px;
+}
+
+.stat{
+  background:rgba(255,255,255,.06);
+  border-radius:14px;
+  padding:10px;
+  text-align:center;
+}
+
+.stat b{
+  display:block;
+  font-size:17px;
+}
+
+.stat span{
+  color:#8e98b3;
+  font-size:10px;
+}
+
+/* ================= SYSTEM BOX ================= */
+
+.system-box{
+  margin-top:14px;
+  border:1px solid rgba(117,240,167,.22);
+  background:rgba(47,180,107,.08);
+  border-radius:18px;
+  padding:14px;
+}
+
+.system-box .label{
+  color:#75f0a7;
+  font-size:11px;
+  font-weight:800;
+  margin-bottom:8px;
+}
+
+.system-box p{
+  margin:0;
+  line-height:1.6;
+  font-size:14px;
+}
+
+/* ================= SECTION ================= */
+
+.section-title{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin:25px 2px 12px;
+}
+
+.section-title h2{
+  margin:0;
+  font-size:19px;
+}
+
+.section-title span{
+  color:#818ba8;
+  font-size:11px;
+}
+
+/* ================= EPISODE ================= */
+
+.episode{
+  background:#11172a;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:21px;
+  overflow:hidden;
+  margin-bottom:12px;
+}
+
+.episode-cover{
+  height:145px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:55px;
+  background:
+    radial-gradient(circle at 50% 20%,rgba(116,92,255,.5),transparent 45%),
+    linear-gradient(145deg,#20284b,#101525);
+}
+
+.episode-body{
+  padding:15px;
+}
+
+.episode-tag{
+  color:#8e7aff;
+  font-size:10px;
+  font-weight:800;
+}
+
+.episode h3{
+  margin:6px 0;
+  font-size:18px;
+}
+
+.episode p{
+  color:#9da7c0;
+  margin:0 0 13px;
+  font-size:13px;
+  line-height:1.5;
+}
+
+/* ================= BUTTON ================= */
+
+.btn{
+  width:100%;
+  padding:13px 15px;
+  border-radius:15px;
+  color:#fff;
+  background:linear-gradient(135deg,#705bff,#397eff);
+  font-weight:900;
+  box-shadow:0 8px 25px rgba(75,88,255,.2);
+}
+
+.btn:active{
+  transform:scale(.98);
+}
+
+.btn.secondary{
+  background:#20283e;
+  box-shadow:none;
+}
+
+.btn.green{
+  background:linear-gradient(135deg,#20b76c,#2edb88);
+}
+
+.btn.orange{
+  background:linear-gradient(135deg,#ff8b35,#ffbd42);
+}
+
+.btn.red{
+  background:linear-gradient(135deg,#e84865,#ff6b6b);
+}
+
+/* ================= LESSON ================= */
+
+.lesson-header{
+  margin-bottom:15px;
+}
+
+.back{
+  background:#171e31;
+  color:#dce1f1;
+  padding:9px 13px;
+  border-radius:12px;
+  margin-bottom:15px;
+}
+
+.lesson-kicker{
+  color:#8b79ff;
+  font-size:11px;
+  font-weight:900;
+}
+
+.lesson-title{
+  font-size:25px;
+  font-weight:950;
+  margin:6px 0;
+}
+
+.lesson-sub{
+  color:#98a2bb;
+  font-size:13px;
+}
+
+/* VIDEO */
+
+.video-box{
+  height:205px;
+  border-radius:21px;
+  background:
+    linear-gradient(rgba(0,0,0,.1),rgba(0,0,0,.55)),
+    radial-gradient(circle at 50% 35%,#394f8f,#141a2d 65%);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.08);
+}
+
+.video-scene{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:70px;
+}
+
+.video-play{
+  position:relative;
+  z-index:2;
+  width:62px;
+  height:62px;
+  border-radius:50%;
+  background:rgba(255,255,255,.92);
+  color:#161b2d;
+  font-size:24px;
+}
+
+.video-label{
+  position:absolute;
+  left:13px;
+  bottom:11px;
+  z-index:3;
+  background:rgba(0,0,0,.55);
+  padding:7px 10px;
+  border-radius:9px;
+  font-size:11px;
+}
+
+/* LEARNING CARD */
+
+.learn-card{
+  background:#11172a;
+  border-radius:20px;
+  border:1px solid rgba(255,255,255,.07);
+  padding:16px;
+  margin-top:12px;
+}
+
+.learn-card h3{
+  margin:0 0 12px;
+  font-size:16px;
+}
+
+.word{
+  padding:13px 0;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+
+.word:last-child{
+  border-bottom:0;
+}
+
+.word-en{
+  font-size:18px;
+  font-weight:900;
+}
+
+.word-cn{
+  color:#929db9;
+  font-size:12px;
+  margin-top:3px;
+}
+
+.word-example{
+  margin-top:7px;
+  color:#dce1ef;
+  font-size:13px;
+}
+
+.word-actions{
+  display:flex;
+  gap:7px;
+  margin-top:8px;
+}
+
+.small-btn{
+  background:#20283d;
+  color:#dfe4f4;
+  border-radius:10px;
+  padding:7px 10px;
+  font-size:11px;
+}
+
+/* ================= SPEAK ================= */
+
+.speak-area{
+  text-align:center;
+}
+
+.speak-btn{
+  width:100px;
+  height:100px;
+  border-radius:50%;
+  margin:12px auto;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(145deg,#765cff,#377eff);
+  box-shadow:0 0 0 10px rgba(98,92,255,.1),
+             0 20px 40px rgba(67,81,255,.25);
+  font-size:38px;
+}
+
+.speak-status{
+  color:#8f9ab4;
+  font-size:12px;
+  min-height:20px;
+}
+
+.recognized{
+  margin-top:10px;
+  background:#1b2338;
+  border-radius:13px;
+  padding:12px;
+  font-size:14px;
+  min-height:45px;
+}
+
+/* ================= AI ================= */
+
+.ai-header{
+  padding:18px;
+  border-radius:22px;
+  background:
+    radial-gradient(circle at 85% 20%,rgba(80,130,255,.3),transparent 40%),
+    #11182c;
+  border:1px solid rgba(255,255,255,.07);
+}
+
+.ai-avatar{
+  width:55px;
+  height:55px;
+  border-radius:18px;
+  background:linear-gradient(135deg,#765cff,#25b9ff);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:28px;
+  margin-bottom:10px;
+}
+
+.ai-name{
+  font-weight:900;
+  font-size:18px;
+}
+
+.ai-role{
+  color:#8e99b5;
+  font-size:11px;
+  margin-top:3px;
+}
+
+.chat{
+  margin-top:14px;
+  min-height:320px;
+}
+
+.msg{
+  max-width:86%;
+  margin:10px 0;
+  padding:12px 14px;
+  border-radius:17px;
+  line-height:1.55;
+  font-size:13px;
+}
+
+.msg.ai{
+  background:#182038;
+  border-bottom-left-radius:5px;
+}
+
+.msg.user{
+  margin-left:auto;
+  background:linear-gradient(135deg,#4d62d9,#725cff);
+  border-bottom-right-radius:5px;
+}
+
+.correction{
+  margin-top:8px;
+  padding:10px;
+  background:rgba(255,180,60,.09);
+  border:1px solid rgba(255,180,60,.18);
+  border-radius:11px;
+  color:#ffd78a;
+}
+
+.chat-input{
+  display:flex;
+  gap:8px;
+  position:sticky;
+  bottom:80px;
+  padding-top:8px;
+  background:linear-gradient(transparent,#070b16 20%);
+}
+
+.chat-input input{
+  flex:1;
+  min-width:0;
+  background:#171e32;
+  border:1px solid rgba(255,255,255,.08);
+  color:#fff;
+  padding:13px;
+  border-radius:14px;
+  outline:none;
+}
+
+.chat-send{
+  width:50px;
+  border-radius:14px;
+  background:#675cff;
+  color:#fff;
+}
+
+/* ================= BOSS ================= */
+
+.boss{
+  background:
+    radial-gradient(circle at 50% 15%,rgba(255,70,100,.25),transparent 35%),
+    #151324;
+  border:1px solid rgba(255,90,110,.18);
+  border-radius:23px;
+  padding:18px;
+  text-align:center;
+}
+
+.boss-avatar{
+  font-size:75px;
+  margin:8px 0;
+}
+
+.boss-name{
+  font-size:20px;
+  font-weight:950;
+}
+
+.hp{
+  height:12px;
+  background:#2d2030;
+  border-radius:99px;
+  overflow:hidden;
+  margin:14px 0 6px;
+}
+
+.hp-fill{
+  height:100%;
+  background:linear-gradient(90deg,#ff435f,#ff8a4a);
+  transition:.4s;
+}
+
+.hp-text{
+  color:#b5a6b2;
+  font-size:11px;
+}
+
+.boss-dialog{
+  background:#211b31;
+  border-radius:17px;
+  padding:15px;
+  margin-top:15px;
+  text-align:left;
+  line-height:1.6;
+}
+
+.answer-box{
+  margin-top:12px;
+}
+
+.answer-box textarea{
+  width:100%;
+  min-height:90px;
+  resize:none;
+  border-radius:15px;
+  border:1px solid rgba(255,255,255,.08);
+  background:#0f1424;
+  color:#fff;
+  padding:13px;
+  outline:none;
+}
+
+/* ================= PROFILE ================= */
+
+.profile-card{
+  text-align:center;
+  background:#11172a;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:23px;
+  padding:25px 18px;
+}
+
+.player{
+  font-size:70px;
+}
+
+.player-name{
+  font-size:23px;
+  font-weight:950;
+}
+
+.rank{
+  color:#9c91ff;
+  font-size:12px;
+  margin-top:4px;
+}
+
+.equipment{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+  margin-top:12px;
+}
+
+.equip{
+  background:#1a2136;
+  padding:15px;
+  border-radius:15px;
+  text-align:left;
+}
+
+.equip-icon{
+  font-size:27px;
+}
+
+.equip b{
+  display:block;
+  margin-top:6px;
+}
+
+.equip span{
+  color:#8e98b3;
+  font-size:10px;
+}
+
+/* ================= TOAST ================= */
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:95px;
+  transform:translateX(-50%) translateY(20px);
+  opacity:0;
+  pointer-events:none;
+  background:#f7f8ff;
+  color:#11172a;
+  padding:11px 16px;
+  border-radius:13px;
+  font-size:12px;
+  font-weight:800;
+  z-index:100;
+  transition:.3s;
+  max-width:88%;
+  text-align:center;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translateX(-50%) translateY(0);
+}
+
+/* ================= NAV ================= */
+
+.nav{
+  position:fixed;
+  left:50%;
+  bottom:0;
+  transform:translateX(-50%);
+  width:min(620px,100%);
+  height:75px;
+  z-index:50;
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  background:rgba(10,14,27,.95);
+  backdrop-filter:blur(18px);
+  border-top:1px solid rgba(255,255,255,.08);
+  padding-bottom:env(safe-area-inset-bottom);
+}
+
+.nav button{
+  background:none;
+  color:#68728d;
+  font-size:10px;
+  font-weight:700;
+}
+
+.nav button .icon{
+  display:block;
+  font-size:21px;
+  margin-bottom:4px;
+}
+
+.nav button.active{
+  color:#8f82ff;
+}
+
+/* ================= MODAL ================= */
+
+.modal{
+  position:fixed;
+  inset:0;
+  z-index:80;
+  display:none;
+  background:rgba(0,0,0,.75);
+  align-items:flex-end;
+  justify-content:center;
+}
+
+.modal.show{
+  display:flex;
+}
+
+.modal-card{
+  width:min(620px,100%);
+  max-height:90vh;
+  overflow:auto;
+  background:#101628;
+  border-radius:25px 25px 0 0;
+  padding:20px;
+  border-top:1px solid rgba(255,255,255,.1);
+}
+
+.modal-close{
+  float:right;
+  background:#222a40;
+  color:#fff;
+  border-radius:10px;
+  padding:7px 11px;
+}
+
+/* ================= DESKTOP ================= */
 
 @media(min-width:700px){
- body{background:#080711}
- .app{box-shadow:0 0 60px #0008}
+  .app{
+    box-shadow:0 0 80px rgba(0,0,0,.35);
+  }
+
+  .nav{
+    border-left:1px solid rgba(255,255,255,.06);
+    border-right:1px solid rgba(255,255,255,.06);
+  }
 }
 </style>
 </head>
@@ -127,770 +810,1358 @@ input{width:100%;padding:14px;border-radius:14px;border:1px solid #41395e;backgr
 
 <div class="app">
 
-<header class="topbar">
-  <div class="player">
-    <div class="avatar">🧙</div>
+<!-- ================= TOP ================= -->
+
+<header class="top">
+  <div class="top-row">
+
     <div>
-      <div class="name">英语冒险者</div>
-      <div class="level">LEVEL <span id="level">1</span></div>
+      <div class="system-title">⚡ 英语强制学习系统</div>
+      <div class="system-status">● SYSTEM ONLINE</div>
     </div>
-  </div>
-  <div class="stats">
-    <div class="stat">🪙 <span id="gold">50</span></div>
-    <div class="stat">🔥 <span id="streak">1</span></div>
+
+    <div class="level-box">
+      <div class="lv" id="level">LV.1</div>
+
+      <div class="xp-mini">
+        <div class="xp-text" id="xpText">0 / 100 XP</div>
+        <div class="xp-bar">
+          <div class="xp-fill" id="xpFill"></div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </header>
 
-<div class="xpbar">
-  <div class="xpfill" id="xpFill"></div>
-</div>
 
-<!-- 首页 -->
-<section class="page active" id="home">
-  <div class="hero">
-    <div class="hero-title">🌎 英语冒险世界</div>
-    <p>不要死背单词。进入真实情景，听、理解、开口说，击败 Boss，真正把英语变成自己的语言。</p>
-    <button class="primary" onclick="startToday()">▶ 开始今天的冒险</button>
-  </div>
+<!-- ================= HOME ================= -->
 
-  <div class="section-head">
-    <h2>🗺️ 世界地图</h2>
-    <span class="small">完成任务解锁</span>
-  </div>
-
-  <div class="map">
-    <div class="map-line"></div>
-
-    <div class="map-card current" onclick="openLesson(0)">
-      <div class="map-icon">👋</div>
-      <div>
-        <div class="map-name">日常生活村</div>
-        <div class="map-desc">打招呼 · 自我介绍</div>
-      </div>
-      <div class="badge">进行中</div>
-    </div>
-
-    <div class="map-card current" onclick="openLesson(2)">
-      <div class="map-icon">🛒</div>
-      <div>
-        <div class="map-name">超市城</div>
-        <div class="map-desc">购物 · 找商品 · 付款</div>
-      </div>
-      <div class="badge">开放</div>
-    </div>
-
-    <div class="map-card current" onclick="openLesson(3)">
-      <div class="map-icon">🍔</div>
-      <div>
-        <div class="map-name">餐厅街</div>
-        <div class="map-desc">点餐 · 付款 · 服务员</div>
-      </div>
-      <div class="badge">开放</div>
-    </div>
-
-    <div class="map-card locked">
-      <div class="map-icon">🚇</div>
-      <div>
-        <div class="map-name">交通站</div>
-        <div class="map-desc">地铁 · 公交 · 问路</div>
-      </div>
-      <div class="badge">🔒 Lv.3</div>
-    </div>
-
-    <div class="map-card locked">
-      <div class="map-icon">💼</div>
-      <div>
-        <div class="map-name">工作区</div>
-        <div class="map-desc">工作 · 同事 · 老板</div>
-      </div>
-      <div class="badge">🔒 Lv.5</div>
-    </div>
-
-    <div class="map-card locked">
-      <div class="map-icon">🏦</div>
-      <div>
-        <div class="map-name">银行城</div>
-        <div class="map-desc">银行 · 付款 · 账户</div>
-      </div>
-      <div class="badge">🔒 Lv.8</div>
-    </div>
-  </div>
-</section>
-
-<!-- 学习 -->
-<section class="page" id="learn">
-  <h1>📚 今日学习</h1>
-  <div class="subtitle">今天不追求数量，追求真正会用。</div>
+<section class="page active" id="page-home">
 
   <div class="hero">
-    <div class="small">TODAY'S QUEST</div>
-    <h2 style="margin-top:5px">🎯 今日目标</h2>
-    <p>学习 5 个实用表达 · 完成听力 · 开口说 · 挑战 Boss</p>
-    <div class="xpbar" style="margin:10px 0">
-      <div class="xpfill" id="dailyFill" style="width:20%"></div>
+
+    <div class="hero-small">WELCOME, PLAYER</div>
+
+    <div class="hero-title">
+      你已经<br>
+      穿越进英语世界。
     </div>
-    <div class="small">今日完成度：<span id="dailyText">20%</span></div>
+
+    <div class="hero-desc">
+      从现在开始，你不能只靠中文生存。
+      系统会把真实生活变成任务，
+      你必须使用英语完成它们。
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <b id="gold">120</b>
+        <span>💰 GOLD</span>
+      </div>
+
+      <div class="stat">
+        <b id="streak">1</b>
+        <span>🔥 STREAK</span>
+      </div>
+
+      <div class="stat">
+        <b id="words">0</b>
+        <span>📚 WORDS</span>
+      </div>
+    </div>
+
   </div>
 
-  <div class="task" onclick="openLesson(0)">
-    <div class="task-icon">👋</div>
-    <div><div class="task-title">打招呼</div><div class="task-desc">Hi · How are you? · Nice to meet you</div></div>
+  <div class="system-box">
+
+    <div class="label">🔴 SYSTEM MESSAGE</div>
+
+    <p>
+      检测到宿主英语水平不足。<br>
+      已启动<strong>强制英语生存训练。</strong>
+    </p>
+
   </div>
 
-  <div class="task" onclick="openLesson(1)">
-    <div class="task-icon">🙋</div>
-    <div><div class="task-title">自我介绍</div><div class="task-desc">My name is... · I'm from...</div></div>
+
+  <div class="section-title">
+    <h2>🎬 当前剧情</h2>
+    <span>EPISODE 01</span>
   </div>
 
-  <div class="task" onclick="openLesson(2)">
-    <div class="task-icon">🛒</div>
-    <div><div class="task-title">超市购物</div><div class="task-desc">Where can I find...? · How much is this?</div></div>
+
+  <div class="episode">
+
+    <div class="episode-cover">
+      🌎
+    </div>
+
+    <div class="episode-body">
+
+      <div class="episode-tag">
+        EP.01 · THE FIRST DAY
+      </div>
+
+      <h3>穿越：你必须学会英语</h3>
+
+      <p>
+        你醒来以后，发现自己已经来到了美国。
+        系统给你的第一个任务只有一个：
+        <strong>完成一次简单的英语交流。</strong>
+      </p>
+
+      <button class="btn" onclick="openLesson()">
+        ▶ 开始剧情
+      </button>
+
+    </div>
   </div>
 
-  <div class="task" onclick="openLesson(3)">
-    <div class="task-icon">🍔</div>
-    <div><div class="task-title">餐厅点餐</div><div class="task-desc">I'd like... · Can I get...?</div></div>
+
+  <div class="section-title">
+    <h2>🗺️ 英语世界</h2>
+    <span>逐步解锁</span>
   </div>
 
-  <button class="primary" onclick="startReview()">🔄 开始今日复习</button>
+
+  <div class="episode">
+
+    <div class="episode-body">
+
+      <h3>🏪 超市城</h3>
+
+      <p>
+        学会寻找商品、询问价格、
+        与店员交流。
+      </p>
+
+      <button class="btn secondary" onclick="openLesson()">
+        🔓 当前可进入
+      </button>
+
+    </div>
+  </div>
+
+
+  <div class="episode">
+
+    <div class="episode-body">
+
+      <h3>🍔 餐厅街</h3>
+
+      <p>
+        点餐、询问菜单、付款。
+      </p>
+
+      <button class="btn secondary">
+        🔒 Lv.2 解锁
+      </button>
+
+    </div>
+  </div>
+
+
+  <div class="episode">
+
+    <div class="episode-body">
+
+      <h3>🚇 交通站</h3>
+
+      <p>
+        问路、买票、听懂工作人员。
+      </p>
+
+      <button class="btn secondary">
+        🔒 Lv.3 解锁
+      </button>
+
+    </div>
+  </div>
+
 </section>
 
-<!-- 闯关 -->
-<section class="page" id="battle">
-  <h1>⚔️ 闯关</h1>
-  <div class="subtitle">真正开口说，才能造成伤害。</div>
+
+<!-- ================= LEARN ================= -->
+
+<section class="page" id="page-learn">
+
+  <div class="lesson-header">
+
+    <button class="back" onclick="showPage('home')">
+      ← 返回世界
+    </button>
+
+    <div class="lesson-kicker">
+      EPISODE 01 · STORY TRAINING
+    </div>
+
+    <div class="lesson-title">
+      穿越后的第一天
+    </div>
+
+    <div class="lesson-sub">
+      系统要求：完成第一次英语交流
+    </div>
+
+  </div>
+
+
+  <!-- VIDEO -->
+
+  <div class="video-box">
+
+    <div class="video-scene">
+      🧑‍💼🏪
+    </div>
+
+    <button class="video-play" onclick="playStory()">
+      ▶
+    </button>
+
+    <div class="video-label">
+      🎬 剧情视频 · 2:15
+    </div>
+
+  </div>
+
+
+  <div class="learn-card">
+
+    <h3>🎬 剧情</h3>
+
+    <p style="line-height:1.7;color:#c8cee0;font-size:14px;">
+      你走进一家美国超市。
+      一个店员看着你。
+      他走过来问：
+    </p>
+
+    <div style="
+      background:#1a2137;
+      padding:15px;
+      border-radius:15px;
+      margin-top:10px;
+      font-size:18px;
+      font-weight:900;
+    ">
+      “Can I help you?”
+    </div>
+
+    <button
+      class="btn secondary"
+      style="margin-top:10px"
+      onclick="speakEnglish('Can I help you?')">
+      🔊 听原声
+    </button>
+
+  </div>
+
+
+  <!-- WORDS -->
+
+  <div class="learn-card">
+
+    <h3>📚 系统提取重点</h3>
+
+    <div class="word">
+
+      <div class="word-en">
+        help
+      </div>
+
+      <div class="word-cn">
+        帮助
+      </div>
+
+      <div class="word-example">
+        Can I help you?
+      </div>
+
+      <div class="word-actions">
+
+        <button class="small-btn"
+          onclick="speakEnglish('Can I help you?')">
+          🔊 听
+        </button>
+
+        <button class="small-btn"
+          onclick="practiceWord('Can I help you?')">
+          🎤 跟读
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <div class="word">
+
+      <div class="word-en">
+        looking for
+      </div>
+
+      <div class="word-cn">
+        正在寻找
+      </div>
+
+      <div class="word-example">
+        I'm looking for milk.
+      </div>
+
+      <div class="word-actions">
+
+        <button class="small-btn"
+          onclick="speakEnglish(\"I'm looking for milk.\")">
+          🔊 听
+        </button>
+
+        <button class="small-btn"
+          onclick="practiceWord(\"I'm looking for milk.\")">
+          🎤 跟读
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <div class="word">
+
+      <div class="word-en">
+        aisle
+      </div>
+
+      <div class="word-cn">
+        过道
+      </div>
+
+      <div class="word-example">
+        It's in aisle 4.
+      </div>
+
+      <div class="word-actions">
+
+        <button class="small-btn"
+          onclick="speakEnglish(\"It's in aisle 4.\")">
+          🔊 听
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- SPEAK -->
+
+  <div class="learn-card">
+
+    <h3>🎤 现在轮到你</h3>
+
+    <p style="color:#919cb8;font-size:13px;">
+      店员问你：
+    </p>
+
+    <div style="
+      text-align:center;
+      font-size:20px;
+      font-weight:900;
+      margin:15px 0;
+    ">
+      Can I help you?
+    </div>
+
+    <div class="speak-area">
+
+      <button class="speak-btn" onclick="startSpeech()">
+        🎤
+      </button>
+
+      <div class="speak-status" id="speakStatus">
+        点击麦克风开始说英语
+      </div>
+
+      <div class="recognized" id="recognized">
+        你的回答会显示在这里
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <button class="btn green"
+    style="margin-top:14px"
+    onclick="openAI()">
+    🤖 进入 AI 教官训练
+  </button>
+
+
+  <button class="btn orange"
+    style="margin-top:9px"
+    onclick="openBattle()">
+    ⚔️ 进入场景 Boss
+  </button>
+
+</section>
+
+
+<!-- ================= AI TEACHER ================= -->
+
+<section class="page" id="page-ai">
+
+  <div class="ai-header">
+
+    <div class="ai-avatar">
+      🤖
+    </div>
+
+    <div class="ai-name">
+      英语教官 · SYSTEM AI
+    </div>
+
+    <div class="ai-role">
+      当前训练场景：美国超市
+    </div>
+
+  </div>
+
+
+  <div class="system-box">
+
+    <div class="label">
+      🧠 AI TRAINING MODE
+    </div>
+
+    <p>
+      不要害怕说错。<br>
+      我会判断你的<strong>语法、单词、自然程度和场景是否正确。</strong>
+    </p>
+
+  </div>
+
+
+  <div class="chat" id="chat">
+
+    <div class="msg ai">
+      👩‍🏫 你好，冒险者。<br><br>
+      现在假设我们正在美国超市。
+      我是店员。
+      <br><br>
+      <strong>What are you looking for?</strong>
+    </div>
+
+  </div>
+
+
+  <div class="chat-input">
+
+    <input
+      id="chatInput"
+      placeholder="用英语回答，例如：I'm looking for milk."
+      onkeydown="if(event.key==='Enter')sendChat()"
+    >
+
+    <button class="chat-send" onclick="sendChat()">
+      ➤
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- ================= BATTLE ================= -->
+
+<section class="page" id="page-battle">
+
+  <button class="back" onclick="showPage('home')">
+    ← 返回
+  </button>
+
+  <div class="section-title">
+    <h2>⚔️ 场景 Boss</h2>
+    <span>真实对话</span>
+  </div>
+
 
   <div class="boss">
-    <div class="small">BOSS BATTLE</div>
-    <div class="boss-face">👹</div>
-    <div class="boss-name">迷糊店员</div>
-    <div class="small">超市城 · 口语 Boss</div>
+
+    <div class="boss-avatar">
+      🧑‍💼
+    </div>
+
+    <div class="boss-name">
+      超市店员
+    </div>
 
     <div class="hp">
-      <div class="hpfill" id="bossHp"></div>
-    </div>
-    <div>❤️ <span id="bossHpText">100</span> / 100</div>
-
-    <div style="margin-top:15px;background:#18152a;padding:14px;border-radius:15px;text-align:left">
-      <div class="small">BOSS SAYS:</div>
-      <strong id="bossQuestion">Hi! Can I help you?</strong>
+      <div class="hp-fill" id="bossHp"></div>
     </div>
 
-    <div class="speech">
-      <div style="font-size:13px;color:#aaa5c1">🎤 请用英语回答</div>
-      <button class="mic" onclick="speakAttempt()">🎤</button>
-      <div class="speech-status" id="speechStatus">点击麦克风开始口语挑战</div>
+    <div class="hp-text" id="bossHpText">
+      HP 100 / 100
     </div>
 
-    <button class="attack-btn" onclick="bossAttack()">⚔️ 回答并攻击 Boss</button>
 
-    <div class="combat-log" id="combatLog">
-      👹 Boss：Hi! Can I help you?<br>
-      💡 提示：你可以回答 “Yes, I'm looking for milk.”
+    <div class="boss-dialog">
+
+      🧑‍💼 店员：
+
+      <br><br>
+
+      <strong>
+        Hi! Can I help you?
+      </strong>
+
     </div>
+
+
+    <div class="answer-box">
+
+      <textarea
+        id="bossAnswer"
+        placeholder="你必须用英语回答……"></textarea>
+
+    </div>
+
+    <button
+      class="btn red"
+      style="margin-top:10px"
+      onclick="attackBoss()">
+      ⚔️ 用英语攻击
+    </button>
+
   </div>
+
+
+  <div class="learn-card">
+
+    <h3>🔥 Combat Log</h3>
+
+    <div id="combatLog"
+      style="color:#aeb8d0;font-size:13px;line-height:1.8">
+      等待你的回答……
+    </div>
+
+  </div>
+
 </section>
 
-<!-- AI -->
-<section class="page" id="ai">
-  <h1>🤖 AI 英语教练</h1>
-  <div class="subtitle">AI 会根据你正在学习的场景纠正你的英语。</div>
 
-  <div class="ai-box">
-    <div class="ai-avatar">🤖</div>
-    <h2 style="margin-top:5px">AI Coach</h2>
-    <div class="small">当前场景：🛒 超市购物</div>
+<!-- ================= PROFILE ================= -->
 
-    <div class="chat" id="chat">
-      <div class="msg ai-msg">
-        Hi! I'm your English coach.<br><br>
-        我们现在练习：<b>在超市寻找商品</b>。<br><br>
-        请用英语回答：<br>
-        <b>“你正在找牛奶，你怎么问店员？”</b>
+<section class="page" id="page-profile">
+
+  <div class="profile-card">
+
+    <div class="player">
+      🧑‍🚀
+    </div>
+
+    <div class="player-name">
+      English Survivor
+    </div>
+
+    <div class="rank">
+      英语生存者 · Lv.<span id="profileLevel">1</span>
+    </div>
+
+    <div class="stats">
+
+      <div class="stat">
+        <b id="profileXP">0</b>
+        <span>XP</span>
+      </div>
+
+      <div class="stat">
+        <b id="profileWords">0</b>
+        <span>WORDS</span>
+      </div>
+
+      <div class="stat">
+        <b id="profileWins">0</b>
+        <span>BOSS</span>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="section-title">
+    <h2>🎒 装备</h2>
+  </div>
+
+
+  <div class="equipment">
+
+    <div class="equip">
+      <div class="equip-icon">🎧</div>
+      <b>英语耳机</b>
+      <span>听力 +5</span>
+    </div>
+
+    <div class="equip">
+      <div class="equip-icon">🎤</div>
+      <b>勇者麦克风</b>
+      <span>口语 +5</span>
+    </div>
+
+    <div class="equip">
+      <div class="equip-icon">📖</div>
+      <b>生存英语书</b>
+      <span>词汇 +10</span>
+    </div>
+
+    <div class="equip">
+      <div class="equip-icon">⚔️</div>
+      <b>English Sword</b>
+      <span>战斗 +8</span>
+    </div>
+
+  </div>
+
+
+  <div class="section-title">
+    <h2>🏆 成就</h2>
+  </div>
+
+
+  <div class="learn-card">
+
+    <div style="padding:8px 0;">
+      🟢 <strong>第一次开口</strong>
+      <div style="color:#8f99b3;font-size:11px;margin-top:4px;">
+        完成第一次英语口语训练
       </div>
     </div>
 
-    <input id="aiInput" placeholder="输入你的英语，例如：Where can I find milk?">
+    <hr style="border:0;border-top:1px solid rgba(255,255,255,.06)">
 
-    <button class="primary" onclick="checkAI()">🤖 检查我的英语</button>
-    <button class="primary" style="background:#302b4d" onclick="nextAI()">🔄 换一个情景</button>
+    <div style="padding:8px 0;">
+      🔒 <strong>美国生存者</strong>
+      <div style="color:#8f99b3;font-size:11px;margin-top:4px;">
+        完成 10 个真实生活场景
+      </div>
+    </div>
+
+    <hr style="border:0;border-top:1px solid rgba(255,255,255,.06)">
+
+    <div style="padding:8px 0;">
+      🔒 <strong>英语战士</strong>
+      <div style="color:#8f99b3;font-size:11px;margin-top:4px;">
+        击败第一个 Boss
+      </div>
+    </div>
+
   </div>
+
 </section>
 
-<!-- 我的 -->
-<section class="page" id="profile">
-  <h1>👤 我的冒险者</h1>
 
-  <div class="profile-card">
-    <div class="avatar" style="margin:auto">🧙</div>
-    <div style="text-align:center;margin-top:10px">
-      <div class="big-level">Lv.<span id="profileLevel">1</span></div>
-      <div class="small">英语冒险者</div>
-    </div>
+<!-- ================= NAV ================= -->
 
-    <div class="xpbar" style="margin:15px 0">
-      <div class="xpfill" id="profileXp"></div>
-    </div>
+<nav class="nav">
 
-    <div class="profile-grid">
-      <div class="profile-item"><b id="profileWords">0</b><span>掌握单词</span></div>
-      <div class="profile-item"><b id="profileBoss">0</b><span>击败 Boss</span></div>
-      <div class="profile-item"><b id="profileDays">1</b><span>连续学习</span></div>
-      <div class="profile-item"><b id="profileMinutes">5</b><span>学习分钟</span></div>
-    </div>
-  </div>
+  <button class="active" onclick="nav(this,'home')">
+    <span class="icon">🏠</span>
+    世界
+  </button>
 
-  <h2>🎒 我的装备</h2>
+  <button onclick="nav(this,'learn')">
+    <span class="icon">🎬</span>
+    剧情
+  </button>
 
-  <div class="equipment">
-    <div class="item">
-      <div class="item-icon">⚔️</div>
-      <div class="item-name">英语之剑</div>
-      <div class="rarity">普通 · 攻击 +5%</div>
-    </div>
+  <button onclick="nav(this,'battle')">
+    <span class="icon">⚔️</span>
+    战斗
+  </button>
 
-    <div class="item">
-      <div class="item-icon">🎧</div>
-      <div class="item-name">听力耳机</div>
-      <div class="rarity">稀有 · 听力 XP +5%</div>
-    </div>
+  <button onclick="nav(this,'ai')">
+    <span class="icon">🤖</span>
+    AI教官
+  </button>
 
-    <div class="item">
-      <div class="item-icon">👟</div>
-      <div class="item-name">口语之靴</div>
-      <div class="rarity">未获得</div>
-    </div>
+  <button onclick="nav(this,'profile')">
+    <span class="icon">👤</span>
+    我的
+  </button>
 
-    <div class="item">
-      <div class="item-icon">🧠</div>
-      <div class="item-name">记忆头盔</div>
-      <div class="rarity">未获得</div>
-    </div>
-  </div>
-
-  <h2>🏆 成就</h2>
-
-  <div class="task">
-    <div class="task-icon">🏆</div>
-    <div><div class="task-title">第一个冒险</div><div class="task-desc">完成第一次学习</div></div>
-  </div>
-
-  <div class="task">
-    <div class="task-icon">🔒</div>
-    <div><div class="task-title">口语勇者</div><div class="task-desc">连续 10 次口语正确</div></div>
-  </div>
-</section>
-
-<nav class="bottom-nav">
-  <button class="navbtn active" onclick="showPage('home',this)"><span>🏠</span>首页</button>
-  <button class="navbtn" onclick="showPage('learn',this)"><span>📚</span>学习</button>
-  <button class="navbtn" onclick="showPage('battle',this)"><span>⚔️</span>闯关</button>
-  <button class="navbtn" onclick="showPage('ai',this)"><span>🤖</span>AI老师</button>
-  <button class="navbtn" onclick="showPage('profile',this)"><span>👤</span>我的</button>
 </nav>
 
 </div>
 
-<div class="modal" id="lessonModal">
-  <div class="modal-content">
-    <button class="close" onclick="closeModal()">✕</button>
-    <div id="lessonContent"></div>
-  </div>
-</div>
 
-<div class="toast" id="toast">+10 XP</div>
+<!-- ================= TOAST ================= -->
+
+<div class="toast" id="toast"></div>
+
 
 <script>
-/* =========================
-   游戏数据
-========================= */
 
-const lessons = [
-  {
-    icon:"👋",
-    title:"打招呼",
-    location:"日常生活村",
-    words:[
-      ["Hi","你好","Hi! How are you?"],
-      ["Hello","你好","Hello! Nice to meet you."],
-      ["friend","朋友","He is my friend."]
-    ],
-    questions:[
-      {
-        q:"“Nice to meet you.” 是什么意思？",
-        options:["很高兴见到你","你叫什么名字","你好吗","再见"],
-        answer:0
-      }
-    ],
-    phrase:"Nice to meet you!"
-  },
-  {
-    icon:"🙋",
-    title:"自我介绍",
-    location:"日常生活村",
-    words:[
-      ["name","名字","My name is Mike."],
-      ["from","来自","I'm from New York."],
-      ["live","居住","I live in Brooklyn."]
-    ],
-    questions:[
-      {
-        q:"“I'm from New York.” 是什么意思？",
-        options:["我住在纽约","我来自纽约","我喜欢纽约","我要去纽约"],
-        answer:1
-      }
-    ],
-    phrase:"My name is Mike. I'm from New York."
-  },
-  {
-    icon:"🛒",
-    title:"超市购物",
-    location:"超市城",
-    words:[
-      ["find","找到","Where can I find milk?"],
-      ["milk","牛奶","I'm looking for milk."],
-      ["shelf","货架","It's on the shelf."],
-      ["price","价格","How much is this?"]
-    ],
-    questions:[
-      {
-        q:"你想问“牛奶在哪里”，应该说？",
-        options:[
-          "How much is milk?",
-          "Where can I find milk?",
-          "I want milk.",
-          "Can I pay for milk?"
-        ],
-        answer:1
-      }
-    ],
-    phrase:"Where can I find milk?"
-  },
-  {
-    icon:"🍔",
-    title:"餐厅点餐",
-    location:"餐厅街",
-    words:[
-      ["menu","菜单","Can I see the menu?"],
-      ["order","点餐","I'd like to order."],
-      ["water","水","Can I get some water?"],
-      ["check","账单","Can I get the check?"]
-    ],
-    questions:[
-      {
-        q:"在餐厅想说“我想要一杯水”，哪一句更自然？",
-        options:[
-          "I want water.",
-          "Can I get some water?",
-          "Water give me.",
-          "I water."
-        ],
-        answer:1
-      }
-    ],
-    phrase:"Can I get some water, please?"
-  }
-];
+/* =========================================================
+   GAME DATA
+========================================================= */
 
-let game = JSON.parse(localStorage.getItem("englishQuestGame")) || {
+const defaultState = {
   level:1,
   xp:0,
-  gold:50,
+  gold:120,
   streak:1,
   words:0,
-  bosses:0,
-  days:1,
-  minutes:5,
-  bossHp:100,
-  combo:0,
-  daily:20
+  wins:0,
+  bossHP:100
 };
 
+let state = JSON.parse(
+  localStorage.getItem("english_rpg_state") ||
+  JSON.stringify(defaultState)
+);
+
+
+/* =========================================================
+   SAVE
+========================================================= */
+
 function save(){
-  localStorage.setItem("englishQuestGame",JSON.stringify(game));
+
+  localStorage.setItem(
+    "english_rpg_state",
+    JSON.stringify(state)
+  );
+
   updateUI();
 }
 
-function xpNeeded(){
-  return game.level * 200;
-}
 
-function addXP(amount){
-  game.xp += amount;
-
-  if(game.xp >= xpNeeded()){
-    game.xp -= xpNeeded();
-    game.level++;
-    game.gold += 50;
-    toast("🎉 升级！你现在是 Lv."+game.level+"！");
-  }else{
-    toast("⭐ +"+amount+" XP");
-  }
-
-  save();
-}
-
-function addGold(amount){
-  game.gold += amount;
-  save();
-}
+/* =========================================================
+   UI
+========================================================= */
 
 function updateUI(){
-  const need=xpNeeded();
-  const percent=Math.min(100,(game.xp/need)*100);
 
-  document.getElementById("level").textContent=game.level;
-  document.getElementById("gold").textContent=game.gold;
-  document.getElementById("streak").textContent=game.streak;
+  document.getElementById("level").textContent =
+    "LV." + state.level;
 
-  document.getElementById("xpFill").style.width=percent+"%";
-  document.getElementById("profileXp").style.width=percent+"%";
+  document.getElementById("profileLevel").textContent =
+    state.level;
 
-  document.getElementById("profileLevel").textContent=game.level;
-  document.getElementById("profileWords").textContent=game.words;
-  document.getElementById("profileBoss").textContent=game.bosses;
-  document.getElementById("profileDays").textContent=game.days;
-  document.getElementById("profileMinutes").textContent=game.minutes;
+  document.getElementById("gold").textContent =
+    state.gold;
 
-  document.getElementById("dailyFill").style.width=game.daily+"%";
-  document.getElementById("dailyText").textContent=game.daily+"%";
+  document.getElementById("streak").textContent =
+    state.streak;
+
+  document.getElementById("words").textContent =
+    state.words;
+
+  document.getElementById("profileWords").textContent =
+    state.words;
+
+  document.getElementById("profileXP").textContent =
+    state.xp;
+
+  document.getElementById("profileWins").textContent =
+    state.wins;
+
+  const xpNeed = state.level * 100;
+
+  document.getElementById("xpText").textContent =
+    state.xp + " / " + xpNeed + " XP";
+
+  document.getElementById("xpFill").style.width =
+    Math.min(100,(state.xp/xpNeed)*100) + "%";
 }
 
-function toast(text){
-  const el=document.getElementById("toast");
-  el.textContent=text;
-  el.classList.add("show");
-  setTimeout(()=>el.classList.remove("show"),1800);
-}
 
-function showPage(id,btn){
-  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
+/* =========================================================
+   XP
+========================================================= */
 
-  document.querySelectorAll(".navbtn").forEach(b=>b.classList.remove("active"));
-  if(btn)btn.classList.add("active");
+function addXP(amount){
 
-  window.scrollTo({top:0,behavior:"smooth"});
-}
+  state.xp += amount;
 
-function startToday(){
-  showPage("learn",document.querySelectorAll(".navbtn")[1]);
-}
+  const need = state.level * 100;
 
-function openLesson(index){
-  const lesson=lessons[index];
+  if(state.xp >= need){
 
-  let html=`
-    <div style="font-size:42px">${lesson.icon}</div>
-    <div class="small">${lesson.location}</div>
-    <h1>${lesson.title}</h1>
-    <p class="subtitle">
-      这一关不是让你死背。先理解，再听，再说，最后把句子真正用起来。
-    </p>
+    state.xp -= need;
+    state.level++;
 
-    <div class="lesson-card">
-      <div class="small">🎬 情景</div>
-      <h3>${lesson.phrase}</h3>
-      <p>想象你现在就在真实的美国生活场景里。先理解这句话。</p>
-      <button class="audio" onclick="speak('${lesson.phrase.replace(/'/g,"\\'")}')">🔊</button>
-    </div>
+    state.gold += 50;
 
-    <h2>🧠 重点词汇</h2>
-  `;
+    toast(
+      "🎉 LEVEL UP！你升到了 Lv." +
+      state.level +
+      "！获得 50 Gold"
+    );
 
-  lesson.words.forEach(w=>{
-    html+=`
-      <div class="task">
-        <div style="font-size:25px">📖</div>
-        <div style="flex:1">
-          <div class="task-title">${w[0]}</div>
-          <div class="task-desc">${w[1]} · ${w[2]}</div>
-        </div>
-        <button onclick="speak('${w[0]}')" style="background:#302b50;color:white;border-radius:10px;padding:8px">🔊</button>
-      </div>
-    `;
-  });
-
-  html+=`
-    <h2>👂 听力挑战</h2>
-    <div class="lesson-card">
-      <div class="word" style="font-size:25px">Where can I find milk?</div>
-      <p style="text-align:center">先听，然后选择你听懂的意思。</p>
-      <button class="audio" onclick="speak('Where can I find milk?')">🔊</button>
-      <button class="choice" onclick="answerListening(this,false)">我想买牛奶。</button>
-      <button class="choice" onclick="answerListening(this,true)">牛奶在哪里可以买到？</button>
-      <button class="choice" onclick="answerListening(this,false)">牛奶多少钱？</button>
-    </div>
-
-    <h2>🎤 开口说</h2>
-    <div class="speech">
-      <div class="word" style="font-size:24px">${lesson.phrase}</div>
-      <p>点击麦克风，然后自己说出来。</p>
-      <button class="mic" onclick="speakAttempt()">🎤</button>
-      <div class="speech-status" id="lessonSpeech">等待你开口...</div>
-    </div>
-
-    <h2>🔄 情景迁移</h2>
-    <div class="lesson-card">
-      <p>现在换一个东西。</p>
-      <h3>Where can I find eggs?</h3>
-      <button class="audio" onclick="speak('Where can I find eggs?')">🔊</button>
-      <button class="primary" onclick="completeLesson(${index})">✅ 我已经会用了</button>
-    </div>
-  `;
-
-  document.getElementById("lessonContent").innerHTML=html;
-  document.getElementById("lessonModal").classList.add("show");
-}
-
-function closeModal(){
-  document.getElementById("lessonModal").classList.remove("show");
-}
-
-function answerListening(btn,correct){
-  if(correct){
-    btn.classList.add("correct");
-    addXP(10);
-    game.daily=Math.min(100,game.daily+15);
-    save();
-    toast("🎧 听懂了！+10 XP");
   }else{
-    btn.classList.add("wrong");
-    toast("再听一次试试");
-  }
-}
 
-function completeLesson(index){
-  closeModal();
-  game.words += lessons[index].words.length;
-  game.daily=Math.min(100,game.daily+20);
-  game.minutes+=5;
-  addXP(30);
+    toast("⭐ +" + amount + " XP");
+
+  }
+
   save();
-
-  if(index>=2){
-    showPage("battle",document.querySelectorAll(".navbtn")[2]);
-    resetBoss();
-  }
 }
 
-function speak(text){
-  if("speechSynthesis" in window){
-    speechSynthesis.cancel();
-    const u=new SpeechSynthesisUtterance(text);
-    u.lang="en-US";
-    u.rate=.85;
-    speechSynthesis.speak(u);
-  }else{
-    toast("你的浏览器暂不支持语音播放");
-  }
+
+/* =========================================================
+   NAV
+========================================================= */
+
+function nav(button,page){
+
+  document.querySelectorAll(".nav button")
+    .forEach(b=>b.classList.remove("active"));
+
+  button.classList.add("active");
+
+  showPage(page);
 }
 
-function speakAttempt(){
-  const status=document.getElementById("speechStatus") || document.getElementById("lessonSpeech");
 
-  if(!("webkitSpeechRecognition" in window || "SpeechRecognition" in window)){
-    if(status)status.textContent="你的浏览器暂未开放语音识别，请先大声说出来，再点击继续。";
-    toast("当前浏览器不支持语音识别");
+function showPage(page){
+
+  document.querySelectorAll(".page")
+    .forEach(p=>p.classList.remove("active"));
+
+  document
+    .getElementById("page-"+page)
+    .classList.add("active");
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+}
+
+
+/* =========================================================
+   LESSON
+========================================================= */
+
+function openLesson(){
+
+  showPage("learn");
+
+}
+
+
+function playStory(){
+
+  toast("🎬 剧情播放中……");
+
+  speakEnglish(
+    "You walk into an American supermarket. A store employee looks at you and asks, Can I help you?"
+  );
+
+}
+
+
+/* =========================================================
+   SPEECH SYNTHESIS
+========================================================= */
+
+function speakEnglish(text){
+
+  if(!("speechSynthesis" in window)){
+
+    toast("你的浏览器不支持语音播放");
+
     return;
   }
 
-  const SpeechRecognition=window.SpeechRecognition || window.webkitSpeechRecognition;
-  const recognition=new SpeechRecognition();
+  speechSynthesis.cancel();
 
-  recognition.lang="en-US";
-  recognition.interimResults=false;
-  recognition.maxAlternatives=1;
+  const u =
+    new SpeechSynthesisUtterance(text);
 
-  if(status)status.textContent="🎤 正在听，请说英语...";
+  u.lang = "en-US";
+  u.rate = .85;
+  u.pitch = 1;
+
+  speechSynthesis.speak(u);
+}
+
+
+/* =========================================================
+   SPEECH RECOGNITION
+========================================================= */
+
+let recognition = null;
+
+
+function startSpeech(){
+
+  const SpeechRecognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
+  if(!SpeechRecognition){
+
+    toast(
+      "当前浏览器没有开放语音识别，请使用 iPhone Safari / Chrome 最新版"
+    );
+
+    return;
+  }
+
+  recognition = new SpeechRecognition();
+
+  recognition.lang = "en-US";
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 3;
+
+  const status =
+    document.getElementById("speakStatus");
+
+  status.textContent =
+    "🎤 正在听……请说英语";
 
   recognition.start();
 
-  recognition.onresult=function(event){
-    const text=event.results[0][0].transcript;
 
-    if(status){
-      status.innerHTML="你说的是：<b>"+text+"</b><br>AI：不错！继续保持。";
+  recognition.onresult = function(event){
+
+    const text =
+      event.results[0][0].transcript;
+
+    document.getElementById(
+      "recognized"
+    ).textContent = text;
+
+    status.textContent =
+      "✅ 已识别";
+
+    evaluateSpeech(text);
+
+  };
+
+
+  recognition.onerror = function(){
+
+    status.textContent =
+      "❌ 没听清，请再试一次";
+
+  };
+
+
+  recognition.onend = function(){
+
+    if(
+      status.textContent.includes("正在听")
+    ){
+      status.textContent =
+        "点击麦克风重新说";
     }
 
-    toast("🎤 已识别："+text);
-    game.daily=Math.min(100,game.daily+10);
-    addXP(15);
+  };
+
+}
+
+
+/* =========================================================
+   SPEECH EVALUATION
+========================================================= */
+
+function evaluateSpeech(text){
+
+  const t = text.toLowerCase();
+
+  if(
+    t.includes("looking for") &&
+    t.includes("milk")
+  ){
+
+    state.words += 1;
+
     save();
-  };
 
-  recognition.onerror=function(){
-    if(status)status.textContent="没有听清，再试一次。";
-  };
-}
+    addXP(20);
 
-let bossQuestions=[
-  {
-    q:"Hi! Can I help you?",
-    hint:"可以回答：Yes, I'm looking for milk."
-  },
-  {
-    q:"What are you looking for?",
-    hint:"可以回答：I'm looking for eggs."
-  },
-  {
-    q:"Where can I help you find it?",
-    hint:"可以回答：Where can I find bread?"
-  },
-  {
-    q:"Anything else?",
-    hint:"可以回答：No, that's all. Thank you."
-  }
-];
+    toast(
+      "🟢 很好！你成功完成了一次真实英语表达。"
+    );
 
-let bossIndex=0;
-
-function resetBoss(){
-  game.bossHp=100;
-  game.combo=0;
-  bossIndex=0;
-  document.getElementById("bossQuestion").textContent=bossQuestions[0].q;
-  document.getElementById("bossHp").style.width="100%";
-  document.getElementById("bossHpText").textContent="100";
-  document.getElementById("combatLog").innerHTML="👹 Boss："+bossQuestions[0].q+"<br>💡 提示："+bossQuestions[0].hint;
-}
-
-function bossAttack(){
-  if(game.bossHp<=0)return;
-
-  const damage=20;
-  game.bossHp-=damage;
-  game.combo++;
-
-  document.getElementById("bossHp").style.width=Math.max(0,game.bossHp)+"%";
-  document.getElementById("bossHpText").textContent=Math.max(0,game.bossHp);
-
-  let log=document.getElementById("combatLog");
-
-  log.innerHTML=
-    "🎤 你：Yes, I'm looking for milk.<br>"+
-    "🤖 AI：语法正确，表达自然！<br>"+
-    "⚔️ 攻击成功！-"+damage+" HP<br>"+
-    "🔥 COMBO × "+game.combo;
-
-  addXP(20);
-
-  if(game.bossHp<=0){
-    setTimeout(bossDefeated,500);
     return;
   }
 
-  bossIndex=(bossIndex+1)%bossQuestions.length;
+
+  if(
+    t.includes("milk")
+  ){
+
+    toast(
+      "🟡 能听懂！试着说：I'm looking for milk."
+    );
+
+    return;
+  }
+
+
+  toast(
+    "🔴 还差一点。系统提示：I'm looking for milk."
+  );
+
+}
+
+
+/* =========================================================
+   PRACTICE
+========================================================= */
+
+function practiceWord(text){
+
+  speakEnglish(text);
 
   setTimeout(()=>{
-    document.getElementById("bossQuestion").textContent=bossQuestions[bossIndex].q;
-    log.innerHTML+="<br><br>👹 Boss："+bossQuestions[bossIndex].q+
-      "<br>💡 提示："+bossQuestions[bossIndex].hint;
-  },500);
+    startSpeech();
+  },1000);
+
 }
 
-function bossDefeated(){
-  game.bosses++;
-  game.gold+=100;
-  game.daily=100;
 
-  save();
+/* =========================================================
+   AI TEACHER
+========================================================= */
 
-  document.getElementById("lessonContent").innerHTML=`
-    <div class="reward">
-      <div class="reward-icon">🏆</div>
-      <h2>Boss Defeated!</h2>
-      <p>你完成了一次真正的英语情景对话。</p>
-      <div class="lesson-card">
-        <h3>🎁 Boss 掉落</h3>
-        <p>🛡️ 听力盾牌 · Rare</p>
-        <p>🪙 +100 Gold</p>
-        <p>⭐ +100 XP</p>
-      </div>
-      <button class="primary" onclick="closeModal()">继续冒险</button>
-    </div>
-  `;
+function openAI(){
 
-  document.getElementById("lessonModal").classList.add("show");
-  addXP(100);
+  showPage("ai");
+
 }
 
-function startReview(){
-  openLesson(2);
+
+function addMessage(text,type){
+
+  const chat =
+    document.getElementById("chat");
+
+  const div =
+    document.createElement("div");
+
+  div.className =
+    "msg " + type;
+
+  div.innerHTML =
+    text;
+
+  chat.appendChild(div);
+
+  chat.scrollTop =
+    chat.scrollHeight;
+
 }
 
-function checkAI(){
-  const input=document.getElementById("aiInput");
-  const text=input.value.trim();
 
-  if(!text){
-    toast("先输入一句英语");
+function sendChat(){
+
+  const input =
+    document.getElementById("chatInput");
+
+  const text =
+    input.value.trim();
+
+  if(!text) return;
+
+  addMessage(
+    escapeHTML(text),
+    "user"
+  );
+
+  input.value = "";
+
+
+  setTimeout(()=>{
+
+    aiReply(text);
+
+  },700);
+
+}
+
+
+function aiReply(text){
+
+  const t =
+    text.toLowerCase();
+
+
+  /* 正确 */
+
+  if(
+    t.includes("looking for") &&
+    t.includes("milk")
+  ){
+
+    addMessage(
+      "🟢 <strong>Excellent!</strong><br><br>" +
+      "你的表达是正确的。<br>" +
+      "你用了很自然的：<strong>I'm looking for...</strong><br><br>" +
+      "现在我们继续。<br><br>" +
+      "👩‍🏫 <strong>What else are you looking for?</strong>",
+      "ai"
+    );
+
+    state.words += 1;
+
+    addXP(20);
+
     return;
   }
 
-  const chat=document.getElementById("chat");
 
-  chat.innerHTML+=`<div class="msg user-msg">${escapeHTML(text)}</div>`;
+  /* want milk */
 
-  let response="";
+  if(
+    t.includes("want") &&
+    t.includes("milk")
+  ){
 
-  const lower=text.toLowerCase();
+    addMessage(
+      "🟡 我听懂你的意思了。<br><br>" +
+      "你说的是：<strong>" +
+      escapeHTML(text) +
+      "</strong><br><br>" +
 
-  if(lower.includes("where") && lower.includes("find")){
-    response=
-      "✅ 很好！你的句子符合当前超市场景。<br><br>"+
-      "你可以继续升级表达：<br>"+
-      "<b>Excuse me, where can I find the milk?</b><br><br>"+
-      "🎉 这次输出通过！";
-    addXP(30);
-  }else if(lower.includes("milk")){
-    response=
-      "👍 我明白你的意思。<br><br>"+
-      "如果你想问“牛奶在哪里”，更自然的说法是：<br>"+
-      "<b>Where can I find milk?</b><br><br>"+
-      "🎤 再说一次。";
-  }else{
-    response=
-      "💡 先从我们正在学习的句型开始：<br><br>"+
-      "<b>Where can I find...?</b><br><br>"+
-      "例如：Where can I find eggs?<br><br>"+
-      "你可以再试一次。";
+      "<div class='correction'>" +
+      "💡 更自然的表达：<br><br>" +
+      "<strong>I'm looking for milk.</strong>" +
+      "<br><br>" +
+      "现在请你重新说一次。" +
+      "</div>",
+      "ai"
+    );
+
+    speakEnglish(
+      "I'm looking for milk."
+    );
+
+    return;
   }
 
-  chat.innerHTML+=`<div class="msg ai-msg">${response}</div>`;
-  input.value="";
-  save();
+
+  /* buy */
+
+  if(
+    t.includes("buy")
+  ){
+
+    addMessage(
+      "🟡 不错，你已经能表达购买的意思。<br><br>" +
+      "在这个场景里，更自然的是：<br><br>" +
+      "<strong>I'm looking for milk.</strong><br><br>" +
+      "再试一次。",
+      "ai"
+    );
+
+    return;
+  }
+
+
+  /* default */
+
+  addMessage(
+    "🤖 我理解你正在尝试表达。<br><br>" +
+    "记住今天的核心句型：<br><br>" +
+    "<strong>I'm looking for + 东西.</strong><br><br>" +
+    "例如：<br>" +
+    "I'm looking for milk.<br>" +
+    "I'm looking for bread.<br>" +
+    "I'm looking for water.<br><br>" +
+    "现在再试一次。",
+    "ai"
+  );
+
 }
 
-function nextAI(){
-  const chat=document.getElementById("chat");
-
-  chat.innerHTML=`
-    <div class="msg ai-msg">
-      🤖 新情景：<br><br>
-      你在餐厅。服务员问：<br><br>
-      <b>"What would you like?"</b><br><br>
-      你想要一杯水。<br>
-      请你自己用英语回答。
-    </div>
-  `;
-
-  document.getElementById("aiInput").placeholder="例如：Can I get some water?";
-}
 
 function escapeHTML(str){
-  return str.replace(/[&<>"']/g,function(m){
-    return {
-      "&":"&amp;",
-      "<":"&lt;",
-      ">":"&gt;",
-      '"':"&quot;",
-      "'":"&#039;"
-    }[m];
-  });
+
+  return str
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
 }
 
+
+/* =========================================================
+   BOSS
+========================================================= */
+
+function openBattle(){
+
+  state.bossHP = 100;
+
+  updateBoss();
+
+  showPage("battle");
+
+}
+
+
+function updateBoss(){
+
+  const hp =
+    Math.max(0,state.bossHP);
+
+  document.getElementById(
+    "bossHp"
+  ).style.width =
+    hp + "%";
+
+  document.getElementById(
+    "bossHpText"
+  ).textContent =
+    "HP " + hp + " / 100";
+
+}
+
+
+function attackBoss(){
+
+  const input =
+    document.getElementById("bossAnswer");
+
+  const answer =
+    input.value.trim();
+
+  if(!answer){
+
+    toast("先用英语回答 Boss！");
+
+    return;
+  }
+
+
+  const t =
+    answer.toLowerCase();
+
+
+  const log =
+    document.getElementById("combatLog");
+
+
+  if(
+    t.includes("looking for") &&
+    t.includes("milk")
+  ){
+
+    state.bossHP -= 35;
+
+    log.innerHTML +=
+      "<br>🟢 Perfect! " +
+      "<strong>-35 Boss HP</strong>";
+
+    addXP(30);
+
+    input.value = "";
+
+    updateBoss();
+
+    if(state.bossHP <= 0){
+
+      winBoss();
+
+    }
+
+    return;
+
+  }
+
+
+  if(
+    t.includes("milk")
+  ){
+
+    state.bossHP -= 15;
+
+    log.innerHTML +=
+      "<br>🟡 意思正确，但表达还不够自然。 -15 HP";
+
+    toast(
+      "试试：I'm looking for milk."
+    );
+
+    updateBoss();
+
+    return;
+
+  }
+
+
+  log.innerHTML +=
+    "<br>🔴 攻击失败：系统要求重新组织英语。";
+
+  toast(
+    "❌ Boss 防御成功。提示：I'm looking for milk."
+  );
+
+}
+
+
+function winBoss(){
+
+  state.wins++;
+
+  state.gold += 80;
+
+  save();
+
+  document.getElementById(
+    "combatLog"
+  ).innerHTML +=
+    "<br><br>🏆 <strong>BOSS DEFEATED!</strong>" +
+    "<br>🎒 获得装备：英语勇者麦克风" +
+    "<br>💰 +80 Gold";
+
+  toast(
+    "🏆 Boss 击败！获得 80 Gold！"
+  );
+
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+let toastTimer;
+
+
+function toast(text){
+
+  const el =
+    document.getElementById("toast");
+
+  el.textContent = text;
+
+  el.classList.add("show");
+
+  clearTimeout(toastTimer);
+
+  toastTimer =
+    setTimeout(()=>{
+      el.classList.remove("show");
+    },2800);
+
+}
+
+
+/* =========================================================
+   INIT
+========================================================= */
+
 updateUI();
+
 </script>
 
 </body>
