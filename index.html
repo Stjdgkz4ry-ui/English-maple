@@ -2,806 +2,557 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#0b1020">
-
-<title>英语强制学习系统</title>
+<title>英语穿越系统</title>
 
 <style>
+:root{
+  --bg:#070b16;
+  --panel:#10182d;
+  --panel2:#151f39;
+  --text:#f8fbff;
+  --muted:#91a0bf;
+  --blue:#6ea8ff;
+  --cyan:#63f3ff;
+  --green:#61e8a6;
+  --yellow:#ffd76a;
+  --red:#ff6b7a;
+  --line:rgba(255,255,255,.09);
+}
+
 *{
   box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
 }
 
 html,body{
   margin:0;
   padding:0;
-  width:100%;
-  min-height:100%;
   background:#070b16;
-  color:#f7f8ff;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC",
-  "Microsoft YaHei",Arial,sans-serif;
+  color:white;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
 }
 
 body{
-  overflow-x:hidden;
-}
-
-button,input{
-  font:inherit;
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 80% 0%,rgba(70,120,255,.18),transparent 36%),
+    radial-gradient(circle at 10% 25%,rgba(48,241,255,.10),transparent 30%),
+    linear-gradient(180deg,#080d1b 0%,#060914 100%);
 }
 
 button{
-  border:0;
+  font:inherit;
   cursor:pointer;
 }
 
 .app{
-  max-width:620px;
+  width:min(100%,480px);
   margin:auto;
   min-height:100vh;
-  background:
-    radial-gradient(circle at 50% -10%,rgba(77,110,255,.28),transparent 35%),
-    #070b16;
-  padding-bottom:88px;
+  padding-bottom:90px;
 }
 
-/* ================= TOP ================= */
-
-.top{
+/* 顶部 */
+.topbar{
   position:sticky;
   top:0;
   z-index:20;
-  padding:14px 16px 10px;
-  background:rgba(7,11,22,.88);
-  backdrop-filter:blur(18px);
-  border-bottom:1px solid rgba(255,255,255,.06);
+  padding:16px;
+  padding-top:calc(12px + env(safe-area-inset-top));
+  background:rgba(7,11,22,.94);
+  backdrop-filter:blur(15px);
+  border-bottom:1px solid rgba(255,255,255,.05);
 }
 
-.top-row{
+.row{
   display:flex;
   align-items:center;
+  gap:10px;
+}
+
+.space{
   justify-content:space-between;
 }
 
-.system-title{
-  font-weight:900;
+.logo{
   font-size:17px;
-}
-
-.system-status{
-  font-size:11px;
-  color:#75f0a7;
-  margin-top:3px;
-}
-
-.level-box{
-  display:flex;
-  align-items:center;
-  gap:8px;
-}
-
-.lv{
-  width:40px;
-  height:40px;
-  border-radius:13px;
-  background:linear-gradient(135deg,#765cff,#3e78ff);
-  display:flex;
-  align-items:center;
-  justify-content:center;
   font-weight:900;
 }
 
-.xp-mini{
-  width:100px;
-}
-
-.xp-text{
-  font-size:10px;
-  color:#aeb5cc;
-  margin-bottom:4px;
-}
-
-.xp-bar{
-  height:6px;
-  background:#20263a;
-  border-radius:99px;
-  overflow:hidden;
-}
-
-.xp-fill{
-  height:100%;
-  background:linear-gradient(90deg,#735dff,#35cfff);
-  border-radius:99px;
-  transition:.4s;
-}
-
-/* ================= PAGES ================= */
-
-.page{
-  display:none;
-  padding:18px 16px;
-}
-
-.page.active{
-  display:block;
-}
-
-/* ================= HERO ================= */
-
-.hero{
-  border-radius:25px;
-  padding:22px;
-  background:
-    radial-gradient(circle at 80% 20%,rgba(90,100,255,.4),transparent 35%),
-    linear-gradient(145deg,#171e38,#101628);
-  border:1px solid rgba(255,255,255,.08);
-  box-shadow:0 18px 50px rgba(0,0,0,.25);
-  position:relative;
-  overflow:hidden;
-}
-
-.hero:after{
-  content:"";
-  position:absolute;
-  width:150px;
-  height:150px;
-  right:-60px;
-  bottom:-70px;
-  border-radius:50%;
-  background:rgba(70,120,255,.18);
-}
-
-.hero-small{
-  color:#8f9bb8;
+.sub{
   font-size:12px;
-  margin-bottom:8px;
-}
-
-.hero-title{
-  font-size:28px;
-  font-weight:950;
-  line-height:1.15;
-  margin-bottom:10px;
-}
-
-.hero-desc{
-  color:#c5cbe0;
-  line-height:1.65;
-  font-size:14px;
+  color:#8e9bb7;
+  margin-top:3px;
 }
 
 .stats{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:8px;
-  margin-top:18px;
+  display:flex;
+  gap:9px;
+  align-items:center;
 }
 
 .stat{
-  background:rgba(255,255,255,.06);
-  border-radius:14px;
-  padding:10px;
-  text-align:center;
-}
-
-.stat b{
-  display:block;
-  font-size:17px;
-}
-
-.stat span{
-  color:#8e98b3;
-  font-size:10px;
-}
-
-/* ================= SYSTEM BOX ================= */
-
-.system-box{
-  margin-top:14px;
-  border:1px solid rgba(117,240,167,.22);
-  background:rgba(47,180,107,.08);
-  border-radius:18px;
-  padding:14px;
-}
-
-.system-box .label{
-  color:#75f0a7;
-  font-size:11px;
-  font-weight:800;
-  margin-bottom:8px;
-}
-
-.system-box p{
-  margin:0;
-  line-height:1.6;
-  font-size:14px;
-}
-
-/* ================= SECTION ================= */
-
-.section-title{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin:25px 2px 12px;
-}
-
-.section-title h2{
-  margin:0;
-  font-size:19px;
-}
-
-.section-title span{
-  color:#818ba8;
-  font-size:11px;
-}
-
-/* ================= EPISODE ================= */
-
-.episode{
-  background:#11172a;
-  border:1px solid rgba(255,255,255,.07);
-  border-radius:21px;
-  overflow:hidden;
-  margin-bottom:12px;
-}
-
-.episode-cover{
-  height:145px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:55px;
-  background:
-    radial-gradient(circle at 50% 20%,rgba(116,92,255,.5),transparent 45%),
-    linear-gradient(145deg,#20284b,#101525);
-}
-
-.episode-body{
-  padding:15px;
-}
-
-.episode-tag{
-  color:#8e7aff;
-  font-size:10px;
-  font-weight:800;
-}
-
-.episode h3{
-  margin:6px 0;
-  font-size:18px;
-}
-
-.episode p{
-  color:#9da7c0;
-  margin:0 0 13px;
   font-size:13px;
-  line-height:1.5;
+  white-space:nowrap;
 }
 
-/* ================= BUTTON ================= */
-
-.btn{
-  width:100%;
-  padding:13px 15px;
-  border-radius:15px;
-  color:#fff;
-  background:linear-gradient(135deg,#705bff,#397eff);
-  font-weight:900;
-  box-shadow:0 8px 25px rgba(75,88,255,.2);
-}
-
-.btn:active{
-  transform:scale(.98);
-}
-
-.btn.secondary{
-  background:#20283e;
-  box-shadow:none;
-}
-
-.btn.green{
-  background:linear-gradient(135deg,#20b76c,#2edb88);
-}
-
-.btn.orange{
-  background:linear-gradient(135deg,#ff8b35,#ffbd42);
-}
-
-.btn.red{
-  background:linear-gradient(135deg,#e84865,#ff6b6b);
-}
-
-/* ================= LESSON ================= */
-
-.lesson-header{
-  margin-bottom:15px;
-}
-
-.back{
-  background:#171e31;
-  color:#dce1f1;
-  padding:9px 13px;
-  border-radius:12px;
-  margin-bottom:15px;
-}
-
-.lesson-kicker{
-  color:#8b79ff;
-  font-size:11px;
-  font-weight:900;
-}
-
-.lesson-title{
-  font-size:25px;
-  font-weight:950;
-  margin:6px 0;
-}
-
-.lesson-sub{
-  color:#98a2bb;
-  font-size:13px;
-}
-
-/* VIDEO */
-
-.video-box{
-  height:205px;
-  border-radius:21px;
-  background:
-    linear-gradient(rgba(0,0,0,.1),rgba(0,0,0,.55)),
-    radial-gradient(circle at 50% 35%,#394f8f,#141a2d 65%);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  position:relative;
-  overflow:hidden;
-  border:1px solid rgba(255,255,255,.08);
-}
-
-.video-scene{
-  position:absolute;
-  inset:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:70px;
-}
-
-.video-play{
-  position:relative;
-  z-index:2;
-  width:62px;
-  height:62px;
-  border-radius:50%;
-  background:rgba(255,255,255,.92);
-  color:#161b2d;
-  font-size:24px;
-}
-
-.video-label{
-  position:absolute;
-  left:13px;
-  bottom:11px;
-  z-index:3;
-  background:rgba(0,0,0,.55);
-  padding:7px 10px;
-  border-radius:9px;
-  font-size:11px;
-}
-
-/* LEARNING CARD */
-
-.learn-card{
-  background:#11172a;
-  border-radius:20px;
-  border:1px solid rgba(255,255,255,.07);
-  padding:16px;
-  margin-top:12px;
-}
-
-.learn-card h3{
-  margin:0 0 12px;
-  font-size:16px;
-}
-
-.word{
-  padding:13px 0;
-  border-bottom:1px solid rgba(255,255,255,.06);
-}
-
-.word:last-child{
-  border-bottom:0;
-}
-
-.word-en{
-  font-size:18px;
-  font-weight:900;
-}
-
-.word-cn{
-  color:#929db9;
+.level{
+  padding:6px 9px;
   font-size:12px;
-  margin-top:3px;
+  border-radius:999px;
+  background:rgba(110,168,255,.15);
+  border:1px solid rgba(110,168,255,.3);
 }
 
-.word-example{
-  margin-top:7px;
-  color:#dce1ef;
-  font-size:13px;
+.progressbox{
+  height:7px;
+  background:#17213b;
+  border-radius:20px;
+  overflow:hidden;
+  margin-top:11px;
 }
 
-.word-actions{
+.progress{
+  height:100%;
+  width:20%;
+  background:linear-gradient(90deg,#63f3ff,#6ea8ff);
+}
+
+/* 剧情 */
+.hero{
+  margin:14px;
+  border-radius:23px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.1);
+  box-shadow:0 20px 40px rgba(0,0,0,.35);
+}
+
+.scene{
+  height:340px;
+  position:relative;
+  overflow:hidden;
+  background:
+  linear-gradient(to bottom,rgba(0,0,0,.05),rgba(0,0,0,.55)),
+  linear-gradient(135deg,#3973a3 0%,#b9d2df 43%,#c3936d 43%,#6c4737 100%);
+}
+
+.window{
+  position:absolute;
+  left:20px;
+  top:38px;
+  width:140px;
+  height:120px;
+  border:7px solid rgba(255,255,255,.75);
+  border-radius:8px;
+  background:linear-gradient(#8fd4ff,#eafaff);
+}
+
+.window::after{
+  content:"NEW YORK";
+  position:absolute;
+  bottom:12px;
+  left:20px;
+  font-weight:900;
+  color:#29547a;
+  font-size:12px;
+}
+
+.person{
+  position:absolute;
+  right:30px;
+  bottom:25px;
+  width:145px;
+  height:220px;
+}
+
+.head{
+  position:absolute;
+  top:0;
+  left:42px;
+  width:67px;
+  height:75px;
+  background:#efc4a7;
+  border-radius:45%;
+}
+
+.hair{
+  position:absolute;
+  top:-4px;
+  left:37px;
+  width:78px;
+  height:40px;
+  border-radius:50%;
+  background:#20283b;
+}
+
+.body{
+  position:absolute;
+  top:65px;
+  left:5px;
+  width:135px;
+  height:160px;
+  border-radius:35px 35px 15px 15px;
+  background:linear-gradient(145deg,#28385f,#11192e);
+}
+
+.tie{
+  position:absolute;
+  top:78px;
+  left:67px;
+  width:12px;
+  height:80px;
+  background:#62d7ff;
+  clip-path:polygon(50% 0,100% 15%,75% 100%,25% 100%,0 15%);
+}
+
+.sceneTag{
+  position:absolute;
+  left:15px;
+  top:15px;
+  background:rgba(5,9,18,.7);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:999px;
+  padding:6px 10px;
+  font-size:12px;
+}
+
+.sceneBtns{
+  position:absolute;
+  right:15px;
+  top:15px;
   display:flex;
   gap:7px;
-  margin-top:8px;
 }
 
-.small-btn{
-  background:#20283d;
-  color:#dfe4f4;
-  border-radius:10px;
-  padding:7px 10px;
-  font-size:11px;
-}
-
-/* ================= SPEAK ================= */
-
-.speak-area{
-  text-align:center;
-}
-
-.speak-btn{
-  width:100px;
-  height:100px;
+.iconBtn{
+  width:39px;
+  height:39px;
   border-radius:50%;
-  margin:12px auto;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:linear-gradient(145deg,#765cff,#377eff);
-  box-shadow:0 0 0 10px rgba(98,92,255,.1),
-             0 20px 40px rgba(67,81,255,.25);
-  font-size:38px;
-}
-
-.speak-status{
-  color:#8f9ab4;
-  font-size:12px;
-  min-height:20px;
-}
-
-.recognized{
-  margin-top:10px;
-  background:#1b2338;
-  border-radius:13px;
-  padding:12px;
-  font-size:14px;
-  min-height:45px;
-}
-
-/* ================= AI ================= */
-
-.ai-header{
-  padding:18px;
-  border-radius:22px;
-  background:
-    radial-gradient(circle at 85% 20%,rgba(80,130,255,.3),transparent 40%),
-    #11182c;
-  border:1px solid rgba(255,255,255,.07);
-}
-
-.ai-avatar{
-  width:55px;
-  height:55px;
-  border-radius:18px;
-  background:linear-gradient(135deg,#765cff,#25b9ff);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:28px;
-  margin-bottom:10px;
-}
-
-.ai-name{
-  font-weight:900;
+  border:1px solid rgba(255,255,255,.15);
+  background:rgba(5,9,18,.65);
+  color:white;
   font-size:18px;
 }
 
-.ai-role{
-  color:#8e99b5;
-  font-size:11px;
-  margin-top:3px;
-}
-
-.chat{
-  margin-top:14px;
-  min-height:320px;
-}
-
-.msg{
-  max-width:86%;
-  margin:10px 0;
-  padding:12px 14px;
-  border-radius:17px;
-  line-height:1.55;
-  font-size:13px;
-}
-
-.msg.ai{
-  background:#182038;
-  border-bottom-left-radius:5px;
-}
-
-.msg.user{
-  margin-left:auto;
-  background:linear-gradient(135deg,#4d62d9,#725cff);
-  border-bottom-right-radius:5px;
-}
-
-.correction{
-  margin-top:8px;
-  padding:10px;
-  background:rgba(255,180,60,.09);
-  border:1px solid rgba(255,180,60,.18);
-  border-radius:11px;
-  color:#ffd78a;
-}
-
-.chat-input{
-  display:flex;
-  gap:8px;
-  position:sticky;
-  bottom:80px;
-  padding-top:8px;
-  background:linear-gradient(transparent,#070b16 20%);
-}
-
-.chat-input input{
-  flex:1;
-  min-width:0;
-  background:#171e32;
-  border:1px solid rgba(255,255,255,.08);
-  color:#fff;
-  padding:13px;
-  border-radius:14px;
-  outline:none;
-}
-
-.chat-send{
-  width:50px;
-  border-radius:14px;
-  background:#675cff;
-  color:#fff;
-}
-
-/* ================= BOSS ================= */
-
-.boss{
-  background:
-    radial-gradient(circle at 50% 15%,rgba(255,70,100,.25),transparent 35%),
-    #151324;
-  border:1px solid rgba(255,90,110,.18);
-  border-radius:23px;
-  padding:18px;
+.caption{
+  position:absolute;
+  left:15px;
+  right:15px;
+  bottom:22px;
   text-align:center;
 }
 
-.boss-avatar{
-  font-size:75px;
-  margin:8px 0;
+.english{
+  font-size:25px;
+  font-weight:900;
+  line-height:1.25;
+  text-shadow:0 4px 15px rgba(0,0,0,.9);
 }
 
-.boss-name{
+.chinese{
+  font-size:14px;
+  margin-top:8px;
+  color:#eef4ff;
+  text-shadow:0 2px 10px rgba(0,0,0,.8);
+}
+
+/* 卡片 */
+.section{
+  padding:0 14px 14px;
+}
+
+.card{
+  background:linear-gradient(180deg,#151f39,#0f172d);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:20px;
+  padding:16px;
+  margin-bottom:12px;
+  box-shadow:0 12px 25px rgba(0,0,0,.18);
+}
+
+.kicker{
+  font-size:12px;
+  color:#63f3ff;
+  font-weight:900;
+  letter-spacing:.7px;
+}
+
+h2{
+  margin:6px 0 7px;
   font-size:20px;
-  font-weight:950;
 }
 
-.hp{
-  height:12px;
-  background:#2d2030;
-  border-radius:99px;
-  overflow:hidden;
-  margin:14px 0 6px;
+p{
+  margin:0;
+  color:#94a1bd;
+  line-height:1.55;
 }
 
-.hp-fill{
-  height:100%;
-  background:linear-gradient(90deg,#ff435f,#ff8a4a);
-  transition:.4s;
+.options{
+  margin-top:14px;
+  display:grid;
+  gap:10px;
 }
 
-.hp-text{
-  color:#b5a6b2;
-  font-size:11px;
-}
-
-.boss-dialog{
-  background:#211b31;
-  border-radius:17px;
-  padding:15px;
-  margin-top:15px;
+.option{
+  width:100%;
   text-align:left;
-  line-height:1.6;
+  padding:14px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.09);
+  background:#101a31;
+  color:white;
 }
 
-.answer-box{
+.option.correct{
+  background:rgba(97,232,166,.12);
+  border-color:#61e8a6;
+}
+
+.option.wrong{
+  background:rgba(255,107,122,.11);
+  border-color:#ff6b7a;
+}
+
+.feedback{
+  display:none;
+  margin-top:12px;
+  padding:12px;
+  border-radius:13px;
+  line-height:1.5;
+  font-size:14px;
+}
+
+.feedback.show{
+  display:block;
+}
+
+.feedback.good{
+  color:#c8ffe4;
+  background:rgba(97,232,166,.1);
+  border:1px solid rgba(97,232,166,.3);
+}
+
+.feedback.bad{
+  color:#ffd7db;
+  background:rgba(255,107,122,.1);
+  border:1px solid rgba(255,107,122,.3);
+}
+
+.hidden{
+  display:none!important;
+}
+
+/* 跟读 */
+.speakbox{
+  text-align:center;
+  margin-top:18px;
+}
+
+.mic{
+  width:86px;
+  height:86px;
+  border-radius:50%;
+  border:none;
+  color:white;
+  font-size:34px;
+  background:linear-gradient(145deg,#5cecff,#697cff);
+  box-shadow:
+  0 0 0 9px rgba(99,243,255,.06),
+  0 16px 35px rgba(65,113,255,.35);
+}
+
+.mic.active{
+  animation:pulse 1s infinite;
+}
+
+@keyframes pulse{
+  50%{
+    box-shadow:
+    0 0 0 20px rgba(99,243,255,.02),
+    0 16px 45px rgba(65,113,255,.55);
+  }
+}
+
+.transcript{
+  min-height:50px;
+  margin:14px 0;
+  background:#091226;
+  border:1px dashed rgba(255,255,255,.15);
+  border-radius:13px;
+  padding:12px;
+  color:#dce8ff;
+}
+
+.action{
+  width:100%;
+  border:0;
+  border-radius:15px;
+  padding:15px;
+  font-weight:900;
+  background:linear-gradient(90deg,#63f3ff,#6ea8ff);
+  color:#06101e;
+}
+
+.action2{
+  width:100%;
+  border-radius:15px;
+  padding:14px;
+  font-weight:800;
+  color:white;
+  background:#15203a;
+  border:1px solid rgba(255,255,255,.09);
+}
+
+/* AI老师 */
+.teacher{
+  display:flex;
+  gap:11px;
+  margin-top:15px;
+}
+
+.avatar{
+  flex:0 0 44px;
+  width:44px;
+  height:44px;
+  border-radius:13px;
+  background:linear-gradient(145deg,#5df5ff,#7782ff);
+  color:#07111f;
+  display:grid;
+  place-items:center;
+  font-weight:900;
+}
+
+.bubble{
+  flex:1;
+  border-radius:5px 15px 15px 15px;
+  padding:12px;
+  background:#0b1429;
+  border:1px solid rgba(255,255,255,.08);
+  color:#dce7ff;
+  font-size:14px;
+  line-height:1.55;
+}
+
+/* 单词 */
+.chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
   margin-top:12px;
 }
 
-.answer-box textarea{
-  width:100%;
-  min-height:90px;
-  resize:none;
-  border-radius:15px;
+.chip{
+  border-radius:999px;
+  padding:8px 10px;
+  background:#0d1730;
+  border:1px solid rgba(110,168,255,.24);
+  font-size:13px;
+}
+
+/* 奖励 */
+.rewards{
+  margin-top:14px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+}
+
+.reward{
+  background:#0b1429;
   border:1px solid rgba(255,255,255,.08);
-  background:#0f1424;
-  color:#fff;
-  padding:13px;
-  outline:none;
-}
-
-/* ================= PROFILE ================= */
-
-.profile-card{
+  border-radius:14px;
+  padding:12px 5px;
   text-align:center;
-  background:#11172a;
-  border:1px solid rgba(255,255,255,.07);
-  border-radius:23px;
-  padding:25px 18px;
 }
 
-.player{
-  font-size:70px;
-}
-
-.player-name{
-  font-size:23px;
-  font-weight:950;
-}
-
-.rank{
-  color:#9c91ff;
-  font-size:12px;
+.reward b{
+  display:block;
+  font-size:18px;
   margin-top:4px;
 }
 
-.equipment{
+.small{
+  color:#8391ae;
+  font-size:12px;
+}
+
+/* 底部导航 */
+.nav{
+  position:fixed;
+  z-index:30;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:min(100%,480px);
   display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:10px;
-  margin-top:12px;
+  grid-template-columns:repeat(4,1fr);
+  padding:9px 10px calc(9px + env(safe-area-inset-bottom));
+  background:rgba(8,12,24,.95);
+  backdrop-filter:blur(16px);
+  border-top:1px solid rgba(255,255,255,.08);
 }
 
-.equip{
-  background:#1a2136;
-  padding:15px;
-  border-radius:15px;
-  text-align:left;
+.nav button{
+  border:none;
+  background:none;
+  color:#74819e;
+  padding:4px 0;
+  font-size:11px;
 }
 
-.equip-icon{
-  font-size:27px;
-}
-
-.equip b{
+.nav span{
   display:block;
-  margin-top:6px;
+  font-size:21px;
+  margin-bottom:3px;
 }
 
-.equip span{
-  color:#8e98b3;
-  font-size:10px;
+.nav button.active{
+  color:white;
 }
 
-/* ================= TOAST ================= */
-
+/* Toast */
 .toast{
   position:fixed;
+  top:90px;
   left:50%;
-  bottom:95px;
-  transform:translateX(-50%) translateY(20px);
+  transform:translateX(-50%);
+  background:#101a32;
+  border:1px solid rgba(255,255,255,.1);
+  padding:10px 15px;
+  border-radius:12px;
   opacity:0;
   pointer-events:none;
-  background:#f7f8ff;
-  color:#11172a;
-  padding:11px 16px;
-  border-radius:13px;
-  font-size:12px;
-  font-weight:800;
   z-index:100;
-  transition:.3s;
-  max-width:88%;
-  text-align:center;
+  transition:.2s;
 }
 
 .toast.show{
   opacity:1;
-  transform:translateX(-50%) translateY(0);
 }
 
-/* ================= NAV ================= */
-
-.nav{
-  position:fixed;
-  left:50%;
-  bottom:0;
-  transform:translateX(-50%);
-  width:min(620px,100%);
-  height:75px;
-  z-index:50;
+/* 关卡 */
+.levelGrid{
   display:grid;
-  grid-template-columns:repeat(5,1fr);
-  background:rgba(10,14,27,.95);
-  backdrop-filter:blur(18px);
-  border-top:1px solid rgba(255,255,255,.08);
-  padding-bottom:env(safe-area-inset-bottom);
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+  margin-top:15px;
 }
 
-.nav button{
-  background:none;
-  color:#68728d;
-  font-size:10px;
-  font-weight:700;
+.levelBox{
+  aspect-ratio:1;
+  display:grid;
+  place-items:center;
+  border-radius:15px;
+  border:1px solid rgba(255,255,255,.09);
+  background:#0c1428;
+  font-weight:900;
 }
 
-.nav button .icon{
-  display:block;
-  font-size:21px;
-  margin-bottom:4px;
-}
-
-.nav button.active{
-  color:#8f82ff;
-}
-
-/* ================= MODAL ================= */
-
-.modal{
-  position:fixed;
-  inset:0;
-  z-index:80;
-  display:none;
-  background:rgba(0,0,0,.75);
-  align-items:flex-end;
-  justify-content:center;
-}
-
-.modal.show{
-  display:flex;
-}
-
-.modal-card{
-  width:min(620px,100%);
-  max-height:90vh;
-  overflow:auto;
-  background:#101628;
-  border-radius:25px 25px 0 0;
-  padding:20px;
-  border-top:1px solid rgba(255,255,255,.1);
-}
-
-.modal-close{
-  float:right;
-  background:#222a40;
-  color:#fff;
-  border-radius:10px;
-  padding:7px 11px;
-}
-
-/* ================= DESKTOP ================= */
-
-@media(min-width:700px){
-  .app{
-    box-shadow:0 0 80px rgba(0,0,0,.35);
-  }
-
-  .nav{
-    border-left:1px solid rgba(255,255,255,.06);
-    border-right:1px solid rgba(255,255,255,.06);
-  }
+.levelBox.current{
+  background:linear-gradient(145deg,#63f3ff,#7180ff);
+  color:#06101f;
 }
 </style>
 </head>
@@ -810,1357 +561,1292 @@ button{
 
 <div class="app">
 
-<!-- ================= TOP ================= -->
+<header class="topbar">
 
-<header class="top">
-  <div class="top-row">
+<div class="row space">
 
-    <div>
-      <div class="system-title">⚡ 英语强制学习系统</div>
-      <div class="system-status">● SYSTEM ONLINE</div>
-    </div>
+<div>
+<div class="logo">⚡ 英语穿越系统</div>
+<div class="sub">第 1 章 · 初到纽约</div>
+</div>
 
-    <div class="level-box">
-      <div class="lv" id="level">LV.1</div>
+<div class="stats">
+<div class="stat">❤️ <b id="hp">5</b></div>
+<div class="stat">🪙 <b id="coins">120</b></div>
+<div class="level">Lv.<span id="lv">1</span></div>
+</div>
 
-      <div class="xp-mini">
-        <div class="xp-text" id="xpText">0 / 100 XP</div>
-        <div class="xp-bar">
-          <div class="xp-fill" id="xpFill"></div>
-        </div>
-      </div>
-    </div>
+</div>
 
-  </div>
+<div class="progressbox">
+<div class="progress" id="progress"></div>
+</div>
+
 </header>
 
 
-<!-- ================= HOME ================= -->
+<!-- 学习页面 -->
+<main id="learnPage">
 
-<section class="page active" id="page-home">
+<section class="hero">
 
-  <div class="hero">
+<div class="scene">
 
-    <div class="hero-small">WELCOME, PLAYER</div>
+<div class="window"></div>
 
-    <div class="hero-title">
-      你已经<br>
-      穿越进英语世界。
-    </div>
+<div class="person">
+<div class="head"></div>
+<div class="hair"></div>
+<div class="body"></div>
+<div class="tie"></div>
+</div>
 
-    <div class="hero-desc">
-      从现在开始，你不能只靠中文生存。
-      系统会把真实生活变成任务，
-      你必须使用英语完成它们。
-    </div>
+<div class="sceneTag">
+剧情 01 · 面试室
+</div>
 
-    <div class="stats">
-      <div class="stat">
-        <b id="gold">120</b>
-        <span>💰 GOLD</span>
-      </div>
+<div class="sceneBtns">
 
-      <div class="stat">
-        <b id="streak">1</b>
-        <span>🔥 STREAK</span>
-      </div>
+<button class="iconBtn" id="soundBtn">
+🔊
+</button>
 
-      <div class="stat">
-        <b id="words">0</b>
-        <span>📚 WORDS</span>
-      </div>
-    </div>
+<button class="iconBtn" id="subtitleBtn">
+文
+</button>
 
-  </div>
+</div>
 
-  <div class="system-box">
+<div class="caption">
 
-    <div class="label">🔴 SYSTEM MESSAGE</div>
+<div class="english" id="sentence">
+I heard you are a teacher.
+</div>
 
-    <p>
-      检测到宿主英语水平不足。<br>
-      已启动<strong>强制英语生存训练。</strong>
-    </p>
+<div class="chinese" id="translation">
+我听说你是一名老师。
+</div>
 
-  </div>
+</div>
 
-
-  <div class="section-title">
-    <h2>🎬 当前剧情</h2>
-    <span>EPISODE 01</span>
-  </div>
-
-
-  <div class="episode">
-
-    <div class="episode-cover">
-      🌎
-    </div>
-
-    <div class="episode-body">
-
-      <div class="episode-tag">
-        EP.01 · THE FIRST DAY
-      </div>
-
-      <h3>穿越：你必须学会英语</h3>
-
-      <p>
-        你醒来以后，发现自己已经来到了美国。
-        系统给你的第一个任务只有一个：
-        <strong>完成一次简单的英语交流。</strong>
-      </p>
-
-      <button class="btn" onclick="openLesson()">
-        ▶ 开始剧情
-      </button>
-
-    </div>
-  </div>
-
-
-  <div class="section-title">
-    <h2>🗺️ 英语世界</h2>
-    <span>逐步解锁</span>
-  </div>
-
-
-  <div class="episode">
-
-    <div class="episode-body">
-
-      <h3>🏪 超市城</h3>
-
-      <p>
-        学会寻找商品、询问价格、
-        与店员交流。
-      </p>
-
-      <button class="btn secondary" onclick="openLesson()">
-        🔓 当前可进入
-      </button>
-
-    </div>
-  </div>
-
-
-  <div class="episode">
-
-    <div class="episode-body">
-
-      <h3>🍔 餐厅街</h3>
-
-      <p>
-        点餐、询问菜单、付款。
-      </p>
-
-      <button class="btn secondary">
-        🔒 Lv.2 解锁
-      </button>
-
-    </div>
-  </div>
-
-
-  <div class="episode">
-
-    <div class="episode-body">
-
-      <h3>🚇 交通站</h3>
-
-      <p>
-        问路、买票、听懂工作人员。
-      </p>
-
-      <button class="btn secondary">
-        🔒 Lv.3 解锁
-      </button>
-
-    </div>
-  </div>
+</div>
 
 </section>
 
 
-<!-- ================= LEARN ================= -->
+<section class="section">
 
-<section class="page" id="page-learn">
+<div class="card" id="quizCard">
 
-  <div class="lesson-header">
+<div class="kicker">
+CHECKPOINT 01
+</div>
 
-    <button class="back" onclick="showPage('home')">
-      ← 返回世界
-    </button>
+<h2>
+刚才这句话是什么意思？
+</h2>
 
-    <div class="lesson-kicker">
-      EPISODE 01 · STORY TRAINING
-    </div>
+<p>
+先理解剧情，答对后才能继续。
+</p>
 
-    <div class="lesson-title">
-      穿越后的第一天
-    </div>
+<div class="options">
 
-    <div class="lesson-sub">
-      系统要求：完成第一次英语交流
-    </div>
+<button class="option" data-correct="0">
+A. 我希望你成为老师。
+</button>
 
-  </div>
+<button class="option" data-correct="1">
+B. 我听说你是一名老师。
+</button>
 
+<button class="option" data-correct="0">
+C. 我知道你不喜欢老师。
+</button>
 
-  <!-- VIDEO -->
+</div>
 
-  <div class="video-box">
+<div class="feedback" id="quizFeedback">
+</div>
 
-    <div class="video-scene">
-      🧑‍💼🏪
-    </div>
+</div>
 
-    <button class="video-play" onclick="playStory()">
-      ▶
-    </button>
 
-    <div class="video-label">
-      🎬 剧情视频 · 2:15
-    </div>
+<!-- 跟读 -->
+<div class="card hidden" id="speakCard">
 
-  </div>
+<div class="kicker">
+SPEAK TO UNLOCK
+</div>
 
+<h2>
+开口说出来
+</h2>
 
-  <div class="learn-card">
+<p>
+请跟读：
+<b style="color:white">
+I heard you are a teacher.
+</b>
+</p>
 
-    <h3>🎬 剧情</h3>
+<div class="speakbox">
 
-    <p style="line-height:1.7;color:#c8cee0;font-size:14px;">
-      你走进一家美国超市。
-      一个店员看着你。
-      他走过来问：
-    </p>
+<button class="mic" id="micBtn">
+🎙️
+</button>
 
-    <div style="
-      background:#1a2137;
-      padding:15px;
-      border-radius:15px;
-      margin-top:10px;
-      font-size:18px;
-      font-weight:900;
-    ">
-      “Can I help you?”
-    </div>
+<div class="transcript" id="transcript">
+点麦克风开始跟读
+</div>
 
-    <button
-      class="btn secondary"
-      style="margin-top:10px"
-      onclick="speakEnglish('Can I help you?')">
-      🔊 听原声
-    </button>
+<button class="action2" id="demoSpeakBtn">
+手机不支持语音识别？点这里模拟完成
+</button>
 
-  </div>
+</div>
 
+<div class="teacher">
 
-  <!-- WORDS -->
+<div class="avatar">
+AI
+</div>
 
-  <div class="learn-card">
+<div class="bubble" id="teacherBubble">
 
-    <h3>📚 系统提取重点</h3>
+我会听你的英语。
 
-    <div class="word">
+不需要一次说得特别标准，只要敢开口。
 
-      <div class="word-en">
-        help
-      </div>
+</div>
 
-      <div class="word-cn">
-        帮助
-      </div>
+</div>
 
-      <div class="word-example">
-        Can I help you?
-      </div>
+</div>
 
-      <div class="word-actions">
 
-        <button class="small-btn"
-          onclick="speakEnglish('Can I help you?')">
-          🔊 听
-        </button>
+<!-- AI讲解 -->
+<div class="card hidden" id="explainCard">
 
-        <button class="small-btn"
-          onclick="practiceWord('Can I help you?')">
-          🎤 跟读
-        </button>
+<div class="kicker">
+AI TEACHER
+</div>
 
-      </div>
+<h2>
+这一句怎么记？
+</h2>
 
-    </div>
+<p>
 
+<b style="color:white">
+I heard...
+</b>
 
-    <div class="word">
+就是：
 
-      <div class="word-en">
-        looking for
-      </div>
+<b style="color:#63f3ff">
+“我听说……”
+</b>
 
-      <div class="word-cn">
-        正在寻找
-      </div>
+<br><br>
 
-      <div class="word-example">
-        I'm looking for milk.
-      </div>
+heard 是 hear 的过去式。
 
-      <div class="word-actions">
+</p>
 
-        <button class="small-btn"
-          onclick="speakEnglish(\"I'm looking for milk.\")">
-          🔊 听
-        </button>
+<div class="chips">
 
-        <button class="small-btn"
-          onclick="practiceWord(\"I'm looking for milk.\")">
-          🎤 跟读
-        </button>
+<div class="chip">
+heard · 听说
+</div>
 
-      </div>
+<div class="chip">
+teacher · 老师
+</div>
 
-    </div>
+<div class="chip">
+I heard you are...
+</div>
 
+</div>
 
-    <div class="word">
+<br>
 
-      <div class="word-en">
-        aisle
-      </div>
+<button class="action" id="nextBtn">
 
-      <div class="word-cn">
-        过道
-      </div>
+✅ 通过本关，进入第 2 关
 
-      <div class="word-example">
-        It's in aisle 4.
-      </div>
+</button>
 
-      <div class="word-actions">
-
-        <button class="small-btn"
-          onclick="speakEnglish(\"It's in aisle 4.\")">
-          🔊 听
-        </button>
-
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <!-- SPEAK -->
-
-  <div class="learn-card">
-
-    <h3>🎤 现在轮到你</h3>
-
-    <p style="color:#919cb8;font-size:13px;">
-      店员问你：
-    </p>
-
-    <div style="
-      text-align:center;
-      font-size:20px;
-      font-weight:900;
-      margin:15px 0;
-    ">
-      Can I help you?
-    </div>
-
-    <div class="speak-area">
-
-      <button class="speak-btn" onclick="startSpeech()">
-        🎤
-      </button>
-
-      <div class="speak-status" id="speakStatus">
-        点击麦克风开始说英语
-      </div>
-
-      <div class="recognized" id="recognized">
-        你的回答会显示在这里
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <button class="btn green"
-    style="margin-top:14px"
-    onclick="openAI()">
-    🤖 进入 AI 教官训练
-  </button>
-
-
-  <button class="btn orange"
-    style="margin-top:9px"
-    onclick="openBattle()">
-    ⚔️ 进入场景 Boss
-  </button>
+</div>
 
 </section>
 
-
-<!-- ================= AI TEACHER ================= -->
-
-<section class="page" id="page-ai">
-
-  <div class="ai-header">
-
-    <div class="ai-avatar">
-      🤖
-    </div>
-
-    <div class="ai-name">
-      英语教官 · SYSTEM AI
-    </div>
-
-    <div class="ai-role">
-      当前训练场景：美国超市
-    </div>
-
-  </div>
+</main>
 
 
-  <div class="system-box">
 
-    <div class="label">
-      🧠 AI TRAINING MODE
-    </div>
+<!-- Boss页面 -->
+<main id="bossPage" class="hidden">
 
-    <p>
-      不要害怕说错。<br>
-      我会判断你的<strong>语法、单词、自然程度和场景是否正确。</strong>
-    </p>
+<section class="section" style="padding-top:15px">
 
-  </div>
+<div class="card">
 
+<div class="kicker">
+BOSS CHALLENGE
+</div>
 
-  <div class="chat" id="chat">
+<h2>
+☕ 星巴克生存战
+</h2>
 
-    <div class="msg ai">
-      👩‍🏫 你好，冒险者。<br><br>
-      现在假设我们正在美国超市。
-      我是店员。
-      <br><br>
-      <strong>What are you looking for?</strong>
-    </div>
+<p>
+AI 店员会和你对话。
+你必须完成点餐才能过关。
+</p>
 
-  </div>
+<div class="teacher">
 
+<div class="avatar">
+☕
+</div>
 
-  <div class="chat-input">
+<div class="bubble">
 
-    <input
-      id="chatInput"
-      placeholder="用英语回答，例如：I'm looking for milk."
-      onkeydown="if(event.key==='Enter')sendChat()"
-    >
+Hi!
 
-    <button class="chat-send" onclick="sendChat()">
-      ➤
-    </button>
+What can I get for you today?
 
-  </div>
+</div>
 
-</section>
+</div>
 
+<div
+class="transcript"
+contenteditable="true"
+id="bossInput"
+>
 
-<!-- ================= BATTLE ================= -->
+I'd like a medium coffee, please.
 
-<section class="page" id="page-battle">
+</div>
 
-  <button class="back" onclick="showPage('home')">
-    ← 返回
-  </button>
+<button class="action" id="bossBtn">
 
-  <div class="section-title">
-    <h2>⚔️ 场景 Boss</h2>
-    <span>真实对话</span>
-  </div>
+发送给 AI 店员
 
+</button>
 
-  <div class="boss">
+<div
+class="feedback good"
+id="bossFeedback"
+>
+</div>
 
-    <div class="boss-avatar">
-      🧑‍💼
-    </div>
-
-    <div class="boss-name">
-      超市店员
-    </div>
-
-    <div class="hp">
-      <div class="hp-fill" id="bossHp"></div>
-    </div>
-
-    <div class="hp-text" id="bossHpText">
-      HP 100 / 100
-    </div>
-
-
-    <div class="boss-dialog">
-
-      🧑‍💼 店员：
-
-      <br><br>
-
-      <strong>
-        Hi! Can I help you?
-      </strong>
-
-    </div>
-
-
-    <div class="answer-box">
-
-      <textarea
-        id="bossAnswer"
-        placeholder="你必须用英语回答……"></textarea>
-
-    </div>
-
-    <button
-      class="btn red"
-      style="margin-top:10px"
-      onclick="attackBoss()">
-      ⚔️ 用英语攻击
-    </button>
-
-  </div>
-
-
-  <div class="learn-card">
-
-    <h3>🔥 Combat Log</h3>
-
-    <div id="combatLog"
-      style="color:#aeb8d0;font-size:13px;line-height:1.8">
-      等待你的回答……
-    </div>
-
-  </div>
+</div>
 
 </section>
 
-
-<!-- ================= PROFILE ================= -->
-
-<section class="page" id="page-profile">
-
-  <div class="profile-card">
-
-    <div class="player">
-      🧑‍🚀
-    </div>
-
-    <div class="player-name">
-      English Survivor
-    </div>
-
-    <div class="rank">
-      英语生存者 · Lv.<span id="profileLevel">1</span>
-    </div>
-
-    <div class="stats">
-
-      <div class="stat">
-        <b id="profileXP">0</b>
-        <span>XP</span>
-      </div>
-
-      <div class="stat">
-        <b id="profileWords">0</b>
-        <span>WORDS</span>
-      </div>
-
-      <div class="stat">
-        <b id="profileWins">0</b>
-        <span>BOSS</span>
-      </div>
-
-    </div>
-
-  </div>
+</main>
 
 
-  <div class="section-title">
-    <h2>🎒 装备</h2>
-  </div>
 
+<!-- 单词页面 -->
+<main id="wordsPage" class="hidden">
 
-  <div class="equipment">
+<section class="section" style="padding-top:15px">
 
-    <div class="equip">
-      <div class="equip-icon">🎧</div>
-      <b>英语耳机</b>
-      <span>听力 +5</span>
-    </div>
+<div class="card">
 
-    <div class="equip">
-      <div class="equip-icon">🎤</div>
-      <b>勇者麦克风</b>
-      <span>口语 +5</span>
-    </div>
+<div class="kicker">
+MEMORY DECK
+</div>
 
-    <div class="equip">
-      <div class="equip-icon">📖</div>
-      <b>生存英语书</b>
-      <span>词汇 +10</span>
-    </div>
+<h2>
+剧情单词
+</h2>
 
-    <div class="equip">
-      <div class="equip-icon">⚔️</div>
-      <b>English Sword</b>
-      <span>战斗 +8</span>
-    </div>
+<p>
+这些单词全部来自你刚学过的剧情。
+</p>
 
-  </div>
+<div class="options">
 
+<button class="option">
+heard
+<span style="float:right;color:#91a0bf">
+听说
+</span>
+</button>
 
-  <div class="section-title">
-    <h2>🏆 成就</h2>
-  </div>
+<button class="option">
+teacher
+<span style="float:right;color:#91a0bf">
+老师
+</span>
+</button>
 
+<button class="option">
+experience
+<span style="float:right;color:#91a0bf">
+经验
+</span>
+</button>
 
-  <div class="learn-card">
+<button class="option">
+interview
+<span style="float:right;color:#91a0bf">
+面试
+</span>
+</button>
 
-    <div style="padding:8px 0;">
-      🟢 <strong>第一次开口</strong>
-      <div style="color:#8f99b3;font-size:11px;margin-top:4px;">
-        完成第一次英语口语训练
-      </div>
-    </div>
+</div>
 
-    <hr style="border:0;border-top:1px solid rgba(255,255,255,.06)">
-
-    <div style="padding:8px 0;">
-      🔒 <strong>美国生存者</strong>
-      <div style="color:#8f99b3;font-size:11px;margin-top:4px;">
-        完成 10 个真实生活场景
-      </div>
-    </div>
-
-    <hr style="border:0;border-top:1px solid rgba(255,255,255,.06)">
-
-    <div style="padding:8px 0;">
-      🔒 <strong>英语战士</strong>
-      <div style="color:#8f99b3;font-size:11px;margin-top:4px;">
-        击败第一个 Boss
-      </div>
-    </div>
-
-  </div>
+</div>
 
 </section>
 
+</main>
 
-<!-- ================= NAV ================= -->
 
+
+<!-- 我的页面 -->
+<main id="profilePage" class="hidden">
+
+<section class="section" style="padding-top:15px">
+
+<div class="card">
+
+<div class="kicker">
+PLAYER PROFILE
+</div>
+
+<h2>
+🧙 英语冒险者
+</h2>
+
+<div class="rewards">
+
+<div class="reward">
+⭐
+<b id="xp">
+180
+</b>
+<span class="small">
+经验
+</span>
+</div>
+
+<div class="reward">
+🔥
+<b>
+3
+</b>
+<span class="small">
+连续学习
+</span>
+</div>
+
+<div class="reward">
+📚
+<b>
+12
+</b>
+<span class="small">
+掌握词汇
+</span>
+</div>
+
+</div>
+
+<br>
+
+<h2 style="font-size:17px">
+第 1 章关卡
+</h2>
+
+<div class="levelGrid">
+
+<div class="levelBox">
+✓
+</div>
+
+<div class="levelBox current">
+2
+</div>
+
+<div class="levelBox">
+🔒
+</div>
+
+<div class="levelBox">
+🔒
+</div>
+
+<div class="levelBox">
+🔒
+</div>
+
+<div class="levelBox">
+👾
+</div>
+
+<div class="levelBox">
+🔒
+</div>
+
+<div class="levelBox">
+🏆
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+</main>
+
+
+
+<!-- 底部导航 -->
 <nav class="nav">
 
-  <button class="active" onclick="nav(this,'home')">
-    <span class="icon">🏠</span>
-    世界
-  </button>
+<button
+class="active"
+data-page="learnPage"
+>
+<span>
+🎬
+</span>
+剧情
+</button>
 
-  <button onclick="nav(this,'learn')">
-    <span class="icon">🎬</span>
-    剧情
-  </button>
+<button
+data-page="bossPage"
+>
+<span>
+⚔️
+</span>
+Boss
+</button>
 
-  <button onclick="nav(this,'battle')">
-    <span class="icon">⚔️</span>
-    战斗
-  </button>
+<button
+data-page="wordsPage"
+>
+<span>
+🧠
+</span>
+单词
+</button>
 
-  <button onclick="nav(this,'ai')">
-    <span class="icon">🤖</span>
-    AI教官
-  </button>
-
-  <button onclick="nav(this,'profile')">
-    <span class="icon">👤</span>
-    我的
-  </button>
+<button
+data-page="profilePage"
+>
+<span>
+🧙
+</span>
+我的
+</button>
 
 </nav>
 
 </div>
 
 
-<!-- ================= TOAST ================= -->
+<div class="toast" id="toast">
+</div>
 
-<div class="toast" id="toast"></div>
 
 
 <script>
 
-/* =========================================================
-   GAME DATA
-========================================================= */
+/* ================================
+   游戏数据
+================================ */
 
-const defaultState = {
-  level:1,
-  xp:0,
-  gold:120,
-  streak:1,
-  words:0,
-  wins:0,
-  bossHP:100
+const game = {
+
+coins:
+Number(localStorage.getItem("english_coins")) || 120,
+
+hp:
+Number(localStorage.getItem("english_hp")) || 5,
+
+xp:
+Number(localStorage.getItem("english_xp")) || 180,
+
+stage:
+Number(localStorage.getItem("english_stage")) || 1
+
 };
 
-let state = JSON.parse(
-  localStorage.getItem("english_rpg_state") ||
-  JSON.stringify(defaultState)
+
+function saveGame(){
+
+localStorage.setItem(
+"english_coins",
+game.coins
 );
 
+localStorage.setItem(
+"english_hp",
+game.hp
+);
 
-/* =========================================================
-   SAVE
-========================================================= */
+localStorage.setItem(
+"english_xp",
+game.xp
+);
 
-function save(){
-
-  localStorage.setItem(
-    "english_rpg_state",
-    JSON.stringify(state)
-  );
-
-  updateUI();
-}
-
-
-/* =========================================================
-   UI
-========================================================= */
-
-function updateUI(){
-
-  document.getElementById("level").textContent =
-    "LV." + state.level;
-
-  document.getElementById("profileLevel").textContent =
-    state.level;
-
-  document.getElementById("gold").textContent =
-    state.gold;
-
-  document.getElementById("streak").textContent =
-    state.streak;
-
-  document.getElementById("words").textContent =
-    state.words;
-
-  document.getElementById("profileWords").textContent =
-    state.words;
-
-  document.getElementById("profileXP").textContent =
-    state.xp;
-
-  document.getElementById("profileWins").textContent =
-    state.wins;
-
-  const xpNeed = state.level * 100;
-
-  document.getElementById("xpText").textContent =
-    state.xp + " / " + xpNeed + " XP";
-
-  document.getElementById("xpFill").style.width =
-    Math.min(100,(state.xp/xpNeed)*100) + "%";
-}
-
-
-/* =========================================================
-   XP
-========================================================= */
-
-function addXP(amount){
-
-  state.xp += amount;
-
-  const need = state.level * 100;
-
-  if(state.xp >= need){
-
-    state.xp -= need;
-    state.level++;
-
-    state.gold += 50;
-
-    toast(
-      "🎉 LEVEL UP！你升到了 Lv." +
-      state.level +
-      "！获得 50 Gold"
-    );
-
-  }else{
-
-    toast("⭐ +" + amount + " XP");
-
-  }
-
-  save();
-}
-
-
-/* =========================================================
-   NAV
-========================================================= */
-
-function nav(button,page){
-
-  document.querySelectorAll(".nav button")
-    .forEach(b=>b.classList.remove("active"));
-
-  button.classList.add("active");
-
-  showPage(page);
-}
-
-
-function showPage(page){
-
-  document.querySelectorAll(".page")
-    .forEach(p=>p.classList.remove("active"));
-
-  document
-    .getElementById("page-"+page)
-    .classList.add("active");
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-}
-
-
-/* =========================================================
-   LESSON
-========================================================= */
-
-function openLesson(){
-
-  showPage("learn");
+localStorage.setItem(
+"english_stage",
+game.stage
+);
 
 }
 
 
-function playStory(){
 
-  toast("🎬 剧情播放中……");
+function refreshStats(){
 
-  speakEnglish(
-    "You walk into an American supermarket. A store employee looks at you and asks, Can I help you?"
-  );
+document.getElementById("coins").textContent =
+game.coins;
+
+document.getElementById("hp").textContent =
+game.hp;
+
+document.getElementById("xp").textContent =
+game.xp;
+
+const level =
+Math.floor(game.xp / 300) + 1;
+
+document.getElementById("lv").textContent =
+level;
+
+const percent =
+(game.xp % 300) / 3;
+
+document.getElementById("progress").style.width =
+percent + "%";
+
+}
+
+refreshStats();
+
+
+
+/* ================================
+   提示框
+================================ */
+
+function showToast(text){
+
+const el =
+document.getElementById("toast");
+
+el.textContent =
+text;
+
+el.classList.add("show");
+
+setTimeout(()=>{
+
+el.classList.remove("show");
+
+},1500);
 
 }
 
 
-/* =========================================================
-   SPEECH SYNTHESIS
-========================================================= */
 
-function speakEnglish(text){
+/* ================================
+   英语朗读
+================================ */
 
-  if(!("speechSynthesis" in window)){
+document.getElementById("soundBtn").onclick =
+function(){
 
-    toast("你的浏览器不支持语音播放");
+const text =
+document.getElementById("sentence").textContent;
 
-    return;
-  }
+if(!window.speechSynthesis){
 
-  speechSynthesis.cancel();
+showToast(
+"当前浏览器不支持语音朗读"
+);
 
-  const u =
-    new SpeechSynthesisUtterance(text);
+return;
 
-  u.lang = "en-US";
-  u.rate = .85;
-  u.pitch = 1;
-
-  speechSynthesis.speak(u);
 }
 
+speechSynthesis.cancel();
 
-/* =========================================================
-   SPEECH RECOGNITION
-========================================================= */
+const speech =
+new SpeechSynthesisUtterance(text);
+
+speech.lang =
+"en-US";
+
+speech.rate =
+0.8;
+
+speech.pitch =
+1;
+
+speechSynthesis.speak(speech);
+
+};
+
+
+
+/* ================================
+   中文字幕
+================================ */
+
+document.getElementById("subtitleBtn").onclick =
+function(){
+
+const translation =
+document.getElementById("translation");
+
+translation.classList.toggle(
+"hidden"
+);
+
+};
+
+
+
+/* ================================
+   第一关选择题
+================================ */
+
+const options =
+document.querySelectorAll(
+"#quizCard .option"
+);
+
+options.forEach(button=>{
+
+button.onclick =
+function(){
+
+const correct =
+button.dataset.correct === "1";
+
+const feedback =
+document.getElementById(
+"quizFeedback"
+);
+
+if(correct){
+
+button.classList.add(
+"correct"
+);
+
+feedback.className =
+"feedback good show";
+
+feedback.innerHTML =
+
+"✅ 回答正确！<br><br>" +
+
+"<b>I heard...</b> 就是“我听说……”";
+
+game.xp += 25;
+
+game.coins += 10;
+
+saveGame();
+
+refreshStats();
+
+setTimeout(()=>{
+
+document
+.getElementById("speakCard")
+.classList.remove("hidden");
+
+document
+.getElementById("speakCard")
+.scrollIntoView({
+behavior:"smooth",
+block:"center"
+});
+
+},600);
+
+}
+
+else{
+
+button.classList.add(
+"wrong"
+);
+
+feedback.className =
+"feedback bad show";
+
+feedback.innerHTML =
+
+"❌ 这句不是“希望”。<br><br>" +
+
+"<b>I heard...</b> = “我听说……”";
+
+setTimeout(()=>{
+
+button.classList.remove(
+"wrong"
+);
+
+},800);
+
+}
+
+};
+
+});
+
+
+
+/* ================================
+   语音识别
+================================ */
+
+const SpeechRecognition =
+
+window.SpeechRecognition ||
+
+window.webkitSpeechRecognition;
+
 
 let recognition = null;
 
-
-function startSpeech(){
-
-  const SpeechRecognition =
-    window.SpeechRecognition ||
-    window.webkitSpeechRecognition;
-
-  if(!SpeechRecognition){
-
-    toast(
-      "当前浏览器没有开放语音识别，请使用 iPhone Safari / Chrome 最新版"
-    );
-
-    return;
-  }
-
-  recognition = new SpeechRecognition();
-
-  recognition.lang = "en-US";
-  recognition.interimResults = false;
-  recognition.maxAlternatives = 3;
-
-  const status =
-    document.getElementById("speakStatus");
-
-  status.textContent =
-    "🎤 正在听……请说英语";
-
-  recognition.start();
+let listening = false;
 
 
-  recognition.onresult = function(event){
+if(SpeechRecognition){
 
-    const text =
-      event.results[0][0].transcript;
+recognition =
+new SpeechRecognition();
 
-    document.getElementById(
-      "recognized"
-    ).textContent = text;
+recognition.lang =
+"en-US";
 
-    status.textContent =
-      "✅ 已识别";
+recognition.interimResults =
+true;
 
-    evaluateSpeech(text);
-
-  };
+recognition.continuous =
+false;
 
 
-  recognition.onerror = function(){
+recognition.onresult =
+function(event){
 
-    status.textContent =
-      "❌ 没听清，请再试一次";
+let text = "";
 
-  };
+for(
+let i = event.resultIndex;
+i < event.results.length;
+i++
+){
+
+text +=
+event.results[i][0].transcript;
+
+}
+
+document.getElementById(
+"transcript"
+).textContent = text;
+
+};
 
 
-  recognition.onend = function(){
+recognition.onend =
+function(){
 
-    if(
-      status.textContent.includes("正在听")
-    ){
-      status.textContent =
-        "点击麦克风重新说";
-    }
+listening = false;
 
-  };
+const mic =
+document.getElementById(
+"micBtn"
+);
+
+mic.classList.remove(
+"active"
+);
+
+mic.textContent =
+"🎙️";
+
+
+const text =
+document.getElementById(
+"transcript"
+).textContent.toLowerCase();
+
+
+let score = 0;
+
+if(text.includes("heard"))
+score++;
+
+if(text.includes("teacher"))
+score++;
+
+if(text.includes("you"))
+score++;
+
+
+if(score >= 2){
+
+passSpeaking();
+
+}
+
+else{
+
+document.getElementById(
+"teacherBubble"
+).innerHTML =
+
+"我听到了，不过关键词还不够清楚。<br><br>" +
+
+"再试一次：<br>" +
+
+"<b>I heard you are a teacher.</b>";
+
+}
+
+};
 
 }
 
 
-/* =========================================================
-   SPEECH EVALUATION
-========================================================= */
 
-function evaluateSpeech(text){
+document.getElementById(
+"micBtn"
+).onclick =
+function(){
 
-  const t = text.toLowerCase();
+if(!recognition){
 
-  if(
-    t.includes("looking for") &&
-    t.includes("milk")
-  ){
+showToast(
+"当前浏览器不支持语音识别，可点下面按钮模拟"
+);
 
-    state.words += 1;
-
-    save();
-
-    addXP(20);
-
-    toast(
-      "🟢 很好！你成功完成了一次真实英语表达。"
-    );
-
-    return;
-  }
-
-
-  if(
-    t.includes("milk")
-  ){
-
-    toast(
-      "🟡 能听懂！试着说：I'm looking for milk."
-    );
-
-    return;
-  }
-
-
-  toast(
-    "🔴 还差一点。系统提示：I'm looking for milk."
-  );
+return;
 
 }
 
 
-/* =========================================================
-   PRACTICE
-========================================================= */
+if(listening){
 
-function practiceWord(text){
+recognition.stop();
 
-  speakEnglish(text);
+return;
 
-  setTimeout(()=>{
-    startSpeech();
-  },1000);
+}
+
+document.getElementById(
+"transcript"
+).textContent =
+
+"正在听你说英语……";
+
+
+this.classList.add(
+"active"
+);
+
+this.textContent =
+"⏹";
+
+listening =
+true;
+
+recognition.start();
+
+};
+
+
+
+/* ================================
+   模拟跟读
+================================ */
+
+document.getElementById(
+"demoSpeakBtn"
+).onclick =
+function(){
+
+document.getElementById(
+"transcript"
+).textContent =
+
+"I heard you are a teacher.";
+
+passSpeaking();
+
+};
+
+
+
+function passSpeaking(){
+
+document.getElementById(
+"teacherBubble"
+).innerHTML =
+
+"✅ 很好！<br><br>" +
+
+"你已经会说这个句型了。<br><br>" +
+
+"你还可以说：<br>" +
+
+"<b>I heard you are a driver.</b><br>" +
+
+"<b>I heard you are new here.</b>";
+
+
+game.xp += 35;
+
+game.coins += 15;
+
+saveGame();
+
+refreshStats();
+
+
+document.getElementById(
+"explainCard"
+).classList.remove(
+"hidden"
+);
+
+
+setTimeout(()=>{
+
+document.getElementById(
+"explainCard"
+).scrollIntoView({
+behavior:"smooth",
+block:"center"
+});
+
+},300);
 
 }
 
 
-/* =========================================================
-   AI TEACHER
-========================================================= */
 
-function openAI(){
+/* ================================
+   第二关
+================================ */
 
-  showPage("ai");
+document.getElementById(
+"nextBtn"
+).onclick =
+function(){
+
+game.stage = 2;
+
+game.xp += 50;
+
+game.coins += 20;
+
+saveGame();
+
+refreshStats();
+
+
+document.getElementById(
+"sentence"
+).textContent =
+
+"Tell me about your experience.";
+
+
+document.getElementById(
+"translation"
+).textContent =
+
+"跟我说说你的工作经验。";
+
+
+document.getElementById(
+"quizCard"
+).innerHTML = `
+
+<div class="kicker">
+
+CHECKPOINT 02
+
+</div>
+
+<h2>
+
+🎉 第 2 关已解锁
+
+</h2>
+
+<p>
+
+面试官开始问你的工作经验。
+
+正式版本里，这里可以播放下一段真人剧情视频。
+
+</p>
+
+<div class="rewards">
+
+<div class="reward">
+
+⭐
+
+<b>
++50
+</b>
+
+<span class="small">
+经验
+</span>
+
+</div>
+
+<div class="reward">
+
+🪙
+
+<b>
++20
+</b>
+
+<span class="small">
+金币
+</span>
+
+</div>
+
+<div class="reward">
+
+🧠
+
+<b>
+3
+</b>
+
+<span class="small">
+新词
+</span>
+
+</div>
+
+</div>
+
+<br>
+
+<button
+class="action"
+onclick="openBoss()"
+>
+
+⚔️ 去体验 Boss 对话
+
+</button>
+
+`;
+
+
+document.getElementById(
+"speakCard"
+).classList.add(
+"hidden"
+);
+
+document.getElementById(
+"explainCard"
+).classList.add(
+"hidden"
+);
+
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+
+showToast(
+"第 2 关已解锁"
+);
+
+};
+
+
+
+/* ================================
+   Boss
+================================ */
+
+document.getElementById(
+"bossBtn"
+).onclick =
+function(){
+
+const text =
+document.getElementById(
+"bossInput"
+).innerText.toLowerCase();
+
+
+const feedback =
+document.getElementById(
+"bossFeedback"
+);
+
+
+feedback.classList.add(
+"show"
+);
+
+
+if(
+text.includes("coffee") ||
+text.includes("latte") ||
+text.includes("tea")
+){
+
+feedback.innerHTML =
+
+"✅ AI 店员：<br><br>" +
+
+"<b>Sure! What size would you like?</b>" +
+
+"<br><br>" +
+
+"你的表达可以理解。" +
+
+"<br><br>" +
+
+"更自然的说法：<br>" +
+
+"<b>I'd like a medium coffee, please.</b>";
+
+
+game.xp += 20;
+
+game.coins += 5;
+
+saveGame();
+
+refreshStats();
+
+}
+
+else{
+
+feedback.innerHTML =
+
+"AI 店员没有听懂你的点餐内容。" +
+
+"<br><br>" +
+
+"试试：<br>" +
+
+"<b>I'd like a medium coffee, please.</b>";
+
+}
+
+};
+
+
+
+function openBoss(){
+
+document.querySelector(
+'[data-page="bossPage"]'
+).click();
 
 }
 
 
-function addMessage(text,type){
 
-  const chat =
-    document.getElementById("chat");
+/* ================================
+   底部导航
+================================ */
 
-  const div =
-    document.createElement("div");
+const navButtons =
+document.querySelectorAll(
+".nav button"
+);
 
-  div.className =
-    "msg " + type;
 
-  div.innerHTML =
-    text;
+navButtons.forEach(button=>{
 
-  chat.appendChild(div);
+button.onclick =
+function(){
 
-  chat.scrollTop =
-    chat.scrollHeight;
+navButtons.forEach(x=>
 
-}
+x.classList.remove(
+"active"
+)
 
+);
 
-function sendChat(){
 
-  const input =
-    document.getElementById("chatInput");
+button.classList.add(
+"active"
+);
 
-  const text =
-    input.value.trim();
 
-  if(!text) return;
+const pages = [
 
-  addMessage(
-    escapeHTML(text),
-    "user"
-  );
+"learnPage",
 
-  input.value = "";
+"bossPage",
 
+"wordsPage",
 
-  setTimeout(()=>{
+"profilePage"
 
-    aiReply(text);
+];
 
-  },700);
 
-}
+pages.forEach(id=>{
 
+document
+.getElementById(id)
+.classList.add(
+"hidden"
+);
 
-function aiReply(text){
+});
 
-  const t =
-    text.toLowerCase();
 
+document
+.getElementById(
+button.dataset.page
+)
+.classList.remove(
+"hidden"
+);
 
-  /* 正确 */
 
-  if(
-    t.includes("looking for") &&
-    t.includes("milk")
-  ){
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
 
-    addMessage(
-      "🟢 <strong>Excellent!</strong><br><br>" +
-      "你的表达是正确的。<br>" +
-      "你用了很自然的：<strong>I'm looking for...</strong><br><br>" +
-      "现在我们继续。<br><br>" +
-      "👩‍🏫 <strong>What else are you looking for?</strong>",
-      "ai"
-    );
+};
 
-    state.words += 1;
-
-    addXP(20);
-
-    return;
-  }
-
-
-  /* want milk */
-
-  if(
-    t.includes("want") &&
-    t.includes("milk")
-  ){
-
-    addMessage(
-      "🟡 我听懂你的意思了。<br><br>" +
-      "你说的是：<strong>" +
-      escapeHTML(text) +
-      "</strong><br><br>" +
-
-      "<div class='correction'>" +
-      "💡 更自然的表达：<br><br>" +
-      "<strong>I'm looking for milk.</strong>" +
-      "<br><br>" +
-      "现在请你重新说一次。" +
-      "</div>",
-      "ai"
-    );
-
-    speakEnglish(
-      "I'm looking for milk."
-    );
-
-    return;
-  }
-
-
-  /* buy */
-
-  if(
-    t.includes("buy")
-  ){
-
-    addMessage(
-      "🟡 不错，你已经能表达购买的意思。<br><br>" +
-      "在这个场景里，更自然的是：<br><br>" +
-      "<strong>I'm looking for milk.</strong><br><br>" +
-      "再试一次。",
-      "ai"
-    );
-
-    return;
-  }
-
-
-  /* default */
-
-  addMessage(
-    "🤖 我理解你正在尝试表达。<br><br>" +
-    "记住今天的核心句型：<br><br>" +
-    "<strong>I'm looking for + 东西.</strong><br><br>" +
-    "例如：<br>" +
-    "I'm looking for milk.<br>" +
-    "I'm looking for bread.<br>" +
-    "I'm looking for water.<br><br>" +
-    "现在再试一次。",
-    "ai"
-  );
-
-}
-
-
-function escapeHTML(str){
-
-  return str
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
-
-}
-
-
-/* =========================================================
-   BOSS
-========================================================= */
-
-function openBattle(){
-
-  state.bossHP = 100;
-
-  updateBoss();
-
-  showPage("battle");
-
-}
-
-
-function updateBoss(){
-
-  const hp =
-    Math.max(0,state.bossHP);
-
-  document.getElementById(
-    "bossHp"
-  ).style.width =
-    hp + "%";
-
-  document.getElementById(
-    "bossHpText"
-  ).textContent =
-    "HP " + hp + " / 100";
-
-}
-
-
-function attackBoss(){
-
-  const input =
-    document.getElementById("bossAnswer");
-
-  const answer =
-    input.value.trim();
-
-  if(!answer){
-
-    toast("先用英语回答 Boss！");
-
-    return;
-  }
-
-
-  const t =
-    answer.toLowerCase();
-
-
-  const log =
-    document.getElementById("combatLog");
-
-
-  if(
-    t.includes("looking for") &&
-    t.includes("milk")
-  ){
-
-    state.bossHP -= 35;
-
-    log.innerHTML +=
-      "<br>🟢 Perfect! " +
-      "<strong>-35 Boss HP</strong>";
-
-    addXP(30);
-
-    input.value = "";
-
-    updateBoss();
-
-    if(state.bossHP <= 0){
-
-      winBoss();
-
-    }
-
-    return;
-
-  }
-
-
-  if(
-    t.includes("milk")
-  ){
-
-    state.bossHP -= 15;
-
-    log.innerHTML +=
-      "<br>🟡 意思正确，但表达还不够自然。 -15 HP";
-
-    toast(
-      "试试：I'm looking for milk."
-    );
-
-    updateBoss();
-
-    return;
-
-  }
-
-
-  log.innerHTML +=
-    "<br>🔴 攻击失败：系统要求重新组织英语。";
-
-  toast(
-    "❌ Boss 防御成功。提示：I'm looking for milk."
-  );
-
-}
-
-
-function winBoss(){
-
-  state.wins++;
-
-  state.gold += 80;
-
-  save();
-
-  document.getElementById(
-    "combatLog"
-  ).innerHTML +=
-    "<br><br>🏆 <strong>BOSS DEFEATED!</strong>" +
-    "<br>🎒 获得装备：英语勇者麦克风" +
-    "<br>💰 +80 Gold";
-
-  toast(
-    "🏆 Boss 击败！获得 80 Gold！"
-  );
-
-}
-
-
-/* =========================================================
-   TOAST
-========================================================= */
-
-let toastTimer;
-
-
-function toast(text){
-
-  const el =
-    document.getElementById("toast");
-
-  el.textContent = text;
-
-  el.classList.add("show");
-
-  clearTimeout(toastTimer);
-
-  toastTimer =
-    setTimeout(()=>{
-      el.classList.remove("show");
-    },2800);
-
-}
-
-
-/* =========================================================
-   INIT
-========================================================= */
-
-updateUI();
+});
 
 </script>
 
